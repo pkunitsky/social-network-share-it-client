@@ -45,11 +45,3 @@ h5,
 h6 {
   font-weight: 500 !important;
 }
-
-a {
-  color: #0070c9;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
