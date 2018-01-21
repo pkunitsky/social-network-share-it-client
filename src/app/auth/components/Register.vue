@@ -59,31 +59,29 @@
   import notify from '@/utils/notify'
 
   export default {
-    data () {
-      return {
-        valid: false,
-        requestPending: false,
-        fullname: '',
-        fullnameRules: [
-          (v) => !!v || 'Please, enter your full name'
-        ],
-        email: '',
-        emailRules: [
-          (v) => !!v || 'E-mail is required',
-          (v) => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(v) || 'Please enter a valid email address'
-        ],
-        password: '',
-        passwordRules: [
-          (v) => !!v || 'Password is required',
-          (v) => v.length >= 6 || 'Password must be not less than 6 characters'
-        ],
-        confirmPassword: '',
-        confirmPasswordRules: [
-          (v) => !!v || 'Make sure you remember your password',
-          (v) => (v === this.password) || 'Passwords should match'
-        ]
-      }
-    },
+    data: () => ({
+      valid: false,
+      requestPending: false,
+      fullname: '',
+      fullnameRules: [
+        (v) => !!v || 'Please, enter your full name'
+      ],
+      email: '',
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(v) || 'Please enter a valid email address'
+      ],
+      password: '',
+      passwordRules: [
+        (v) => !!v || 'Password is required',
+        (v) => v.length >= 6 || 'Password must be not less than 6 characters'
+      ],
+      confirmPassword: '',
+      confirmPasswordRules: [
+        (v) => !!v || 'Make sure you remember your password',
+        (v) => (v === this.password) || 'Passwords should match'
+      ]
+    }),
     methods: {
       onSubmit () {
         this.requestPending = true

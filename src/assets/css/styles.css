@@ -5,10 +5,7 @@
 
 html,
 body {
-  font-size: 14px;
-  font-family: Helvetica, 'Avenir', Arial, sans-serif;
   user-select: none;
-  background-color: #e6ecf0;
 }
 
 *,
@@ -44,4 +41,8 @@ h4,
 h5,
 h6 {
   font-weight: 500 !important;
+}
+
+.card {
+  border-radius: .25rem;
 }

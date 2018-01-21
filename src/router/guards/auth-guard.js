@@ -2,7 +2,7 @@ import store from '@/store'
 
 export default {
   beforeEnter (to, from, next) {
-    if (to.name === 'logout') next()
+    if (to.path === '/auth/logout') next()
     
     const { token } = store.state
     if (token) {
@@ -15,7 +15,7 @@ export default {
 
   logout: {
     beforeEnter (to, from, next) {
-      store.dispatch('logout')
+      store.dispatch('auth/logout')
     }
   }
 }

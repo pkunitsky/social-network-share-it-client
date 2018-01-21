@@ -3,18 +3,16 @@ import App from './App'
 import store from '@/store'
 import router from '@/router'
 
-import '@/assets/css/styles.css'
-
 /** vue plugins */
 import '@/plugins/vuetify'
 import '@/plugins/nprogress'
 import '@/plugins/vuex-router-sync'
 
+import '@/assets/css/styles.css'
+
 /** global vue components */
-import Nav from '@/app/_global/components/Nav'
 import Footer from '@/app/_global/components/Footer'
 
-Vue.component('Nav', Nav)
 Vue.component('Footer', Footer)
 
 new Vue({

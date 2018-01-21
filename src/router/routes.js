@@ -1,8 +1,10 @@
 /* modules */
 import Auth from '@/app/auth/components'
-import Chat from '@/app/chat/components'
-import News from '@/app/news/components'
 import Profile from '@/app/profile/components'
+import Messages from '@/app/messages/components'
+import Articles from '@/app/articles/components'
+import Discover from '@/app/discover/components'
+import Settings from '@/app/settings/components'
 import Test from '@/app/test/components'
 
 /* route guards */
@@ -22,24 +24,32 @@ export default [
     ]
   },
   {
-    path: '/chat',
-    component: Chat
+    path: '/messages',
+    component: Messages
   },
   {
-    path: '/news',
-    component: News
+    path: '/articles',
+    component: Articles
+  },
+  {
+    path: '/discover',
+    component: Discover
   },
   {
     path: '/profile',
     component: Profile
   },
   {
+    path: '/settings',
+    component: Settings
+  },
+  {
     path: '/test',
     name: 'test',
     component: Test
   },
-  {
-    path: '*',
-    redirect: '/chat'
-  }
+  // {
+  //   path: '*',
+  //   redirect: '/discover'
+  // }
 ]

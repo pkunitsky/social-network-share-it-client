@@ -4,3 +4,5 @@
 - [ ] use tooltips
 - [ ] pagination
 - [ ] switch post layout
+- [ ] router-view scroll
+- [ ] favicon

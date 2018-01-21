@@ -5,12 +5,12 @@ import nprogress from '@/../modules/nprogress'
 export default {
   beforeEach (to, from, next) {
     if (process.env.NODE_ENV === 'development') {
-      console.log('checker disabled for a while for client development')
+      console.log('router.beforeEach disabled for a while for client development')
       next()
       return
     }
     /** let pass for test route */
-    if (to.name === 'test') next()
+    if (to.path === '/test') next()
 
     const { token } = store.state
     if (!token) {

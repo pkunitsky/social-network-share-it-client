@@ -1,24 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-import globalModule from '@/app/_global/store'
-import authModule from '@/app/auth/store'
-import chatModule from '@/app/chat/store'
-
 import createPersistedState from 'vuex-persistedstate'
+
+/** modules */
+import global from '@/app/_global/store'
+import auth from '@/app/auth/store'
+import messages from '@/app/messages/store'
+import discover from '@/app/discover/store'
+import settings from '@/app/settings/store'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  ...globalModule,
+  strict: true,
+
+  ...global,
+
   modules: {
     auth: {
       namespaced: true,
-      ...authModule
+      ...auth
     },
-    chat: {
+    messages: {
       namespaced: true,
-      ...chatModule
+      ...messages
+    },
+    settings: {
+      namespaced: true,
+      ...settings
+    },
+    discover: {
+      namespaced: true,
+      ...discover
     }
   },
 

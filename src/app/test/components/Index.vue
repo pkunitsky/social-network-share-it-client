@@ -1,5 +1,3 @@
 <template>
-    <div>
-      Test Page
-    </div>
-  </template>
+  <div>Test Page</div>
+</template>

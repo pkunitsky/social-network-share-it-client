@@ -41,13 +41,13 @@
 
 <script>
   export default {
-    data: {
+    data: () => ({
       msg: null
-    },
+    }),
 
     methods: {
       onSubmit () {
-        console.log(this.$vuetify)
+        
       }
     }
   }
