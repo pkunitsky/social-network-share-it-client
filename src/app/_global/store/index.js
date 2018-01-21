@@ -11,6 +11,10 @@ export default {
 
   mutations: {
     notify (state, text, timeout) {
+      /** stop executing if notifications are turned off */
+      if (state.settings.showNotifications === false) return
+
+
       state.snackbar.text = text
       if (timeout) state.snackbar.timeout = timeout
 

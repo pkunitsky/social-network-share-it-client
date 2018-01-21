@@ -1,7 +1,12 @@
-import state from './state'
-import mutations from './mutations'
-
 export default {
-  state,
-  mutations
+  state: {
+    showNotifications: true,
+    nightMode: false
+  },
+
+  mutations: {
+    toggle (state, setting) {
+      state[setting] = !state[setting]
+    }
+  }
 }

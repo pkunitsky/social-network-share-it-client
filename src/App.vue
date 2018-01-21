@@ -75,21 +75,21 @@
               <v-list-tile>
                 <v-list-tile-action>
                   <v-switch
-                    v-model="notifications"
-                    color="primary">
-                  </v-switch>
-                </v-list-tile-action>
-                <v-list-tile-title>Enable notifications</v-list-tile-title>
-              </v-list-tile>
-              
-              <v-list-tile>
-                <v-list-tile-action>
-                  <v-switch
                     v-model="nightMode"
                     color="primary">
                   </v-switch>
                 </v-list-tile-action>
                 <v-list-tile-title>Night mode</v-list-tile-title>
+              </v-list-tile>
+
+              <v-list-tile>
+                <v-list-tile-action>
+                  <v-switch
+                    v-model="showNotifications"
+                    color="primary">
+                  </v-switch>
+                </v-list-tile-action>
+                <v-list-tile-title>Show notifications</v-list-tile-title>
               </v-list-tile>
             </v-list>
             <v-card-actions>
@@ -125,9 +125,9 @@
   export default {
     computed: {
       ...mapState(['snackbar']),
-      notifications: {
-        get () {return this.$store.state.settings.notifications},
-        set () {this.$store.commit('settings/toggle', 'notifications')}
+      showNotifications: {
+        get () {return this.$store.state.settings.showNotifications},
+        set () {this.$store.commit('settings/toggle', 'showNotifications')}
       },
       nightMode: {
         get () {return this.$store.state.settings.nightMode},
