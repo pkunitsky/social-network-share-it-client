@@ -25,7 +25,7 @@ export default {
       .check(token)
       .then(valid => {
         if (!valid) {
-          store.dispatch('logout')
+          store.commit('auth/logout')
         }
         nprogress.done()
         next()

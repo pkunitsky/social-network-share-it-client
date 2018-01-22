@@ -65,6 +65,11 @@
     }),
     methods: {
       onSubmit () {
+        /* test */
+        this.$store.commit('auth/authorizeTest')
+        return
+        /* test */
+
         this.requestPending = true
         AuthService
           .login({
@@ -78,7 +83,7 @@
             notify(`Welcome ${name}!`, {
               timeout: 1000
             })
-            this.$store.dispatch('login', {user, token})
+            this.$store.commit('auth/login', {user, token})
           })
           .catch(err => {
             this.requestPending = false

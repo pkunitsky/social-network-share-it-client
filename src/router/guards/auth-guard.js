@@ -15,7 +15,7 @@ export default {
 
   logout: {
     beforeEnter (to, from, next) {
-      store.dispatch('auth/logout')
+      store.commit('auth/logout')
     }
   }
 }

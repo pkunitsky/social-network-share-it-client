@@ -2,9 +2,9 @@
   <v-app :dark="nightMode">
     <v-navigation-drawer app
       fixed
-      :clipped="true"
+      v-if="authorized"
       v-model="drawer">
-      <v-container fluid fill-height>
+      <div class="center">
         <v-list>
           <template v-for="(item, i) in items">
             <v-list-tile v-if="item.to" :disabled="!item.to" :to="item.to">
@@ -24,10 +24,11 @@
             </v-list-tile>
           </template>
         </v-list>
-      </v-container>
+      </div>
     </v-navigation-drawer>
 
     <v-toolbar app
+      v-if="authorized"
       elevation-0
       :color="nightMode ? null : 'white'">
       <v-toolbar-title
@@ -104,45 +105,69 @@
     </v-toolbar>
     
     <v-content>
-      <v-container fluid fill-height grid-list-md>
+      <router-view v-if="!authorized" name="fullsize" />
+      
+      <v-container v-if="authorized" fluid fill-height v-bind="{ [`grid-list-${size}`]: true }">
         <router-view />
       </v-container>
     </v-content>
 
       <v-snackbar
-        :timeout="snackbar.timeout"
-        v-model="snackbar.visible"
+        :timeout="notification.timeout"
+        v-model="notification.visible"
         left>
-        {{ snackbar.text }}
-      <v-btn dark flat @click.native="hideSnackbar">Close</v-btn>
+        {{ notification.text }}
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
 
-  export default {
+  export default {    
     computed: {
-      ...mapState(['snackbar']),
+      size () {
+        return this.$vuetify.breakpoint.name
+      },
+
+      ...mapState({
+        notification: state => state.notification,
+        authorized: state => state.auth.authorized
+      }),
+
       showNotifications: {
-        get () {return this.$store.state.settings.showNotifications},
-        set () {this.$store.commit('settings/toggle', 'showNotifications')}
+        get () {
+          const {settings} = this.$store.state
+          return settings.showNotifications
+        },
+        set () {
+          this.$store.commit('settings/toggle', 'showNotifications')
+        }
       },
       nightMode: {
         get () {return this.$store.state.settings.nightMode},
         set () {
-          this.$store.commit('settings/toggle', 'nightMode')
-          const {nightMode} = this.$store.state.settings
+          const {settings} = this.$store.state
+          const {theme} = this.$vuetify
+
+          this.$store.commit('settings/toggleNightMode')
           this.$store.commit('notify',
-            `Turning night mode ${nightMode ? 'on':'off'}`
+            `Night mode is turned ${settings.nightMode ? 'on':'off'}`
           )
+
+          const merger = (settings.nightMode)
+            ? settings.themes.dark
+            : settings.themes.light
+
+          console.log(merger)
+
+          Object.keys(theme).forEach(key => {
+            theme[key] = merger[key]
+          })
+
+          // console.log(this.$vuetify.theme.primary)
         }
       }
-    },
-
-    methods: {
-      ...mapMutations(['hideSnackbar'])
     },
 
     data: () => ({
@@ -193,7 +218,7 @@
         },
         {
           text: 'Test Page',
-          to: null,
+          to: '/test',
           badge: null,
           icon: 'warning'
         },
@@ -214,28 +239,34 @@
   }
   .toolbar {
     box-shadow: none;
-    border-bottom: 1px solid rgba(0,0,0, 0.20) !important;
+    border-bottom: 1px solid rgba(0,0,0, 0.12) !important;
   }
-  .btn__content::before { opacity: 0.70 !important }
-
+  .center {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .theme--light .toolbar .icon { color: #A0A0A0 !important }
   
   /* light theme customizations for drawer */
-  .theme--light .list__tile { opacity: 0.70 !important; }
-  .theme--light .list__tile--active {
+  .theme--light .navigation-drawer .list__tile { opacity: 0.70 !important; }
+  .theme--light .navigation-drawer .list__tile--active {
     opacity: 1 !important;
     color: rgba(0,0,0, 0.87) !important;
     background: rgba(0,0,0,.12) !important;
   }
-  .theme--light .list__tile--active .list__tile__content { color: rgba(0,0,0, 0.87) !important; }
-  .theme--light .list__tile--active .icon { color: rgba(0,0,0, 0.87) !important; }
+  .theme--light .navigation-drawer .list__tile--active .list__tile__content { color: rgba(0,0,0, 0.87) !important; }
+  .theme--light .navigation-drawer .list__tile--active .icon { color: rgba(0,0,0, 0.87) !important; }
   
   /* dark theme customizations for drawer */
-  .theme--dark .list__tile { opacity: 0.45 !important; }
-  .theme--dark .list__tile--active {
+  .theme--dark .navigation-drawer .list__tile { opacity: 0.45 !important; }
+  .theme--dark .navigation-drawer .list__tile--active {
     opacity: 1 !important;
     color: #fff !important;
     background: rgba(0,0,0,.12) !important;
   }
-  .theme--dark .list__tile--active .list__tile__content { color: #fff !important; }
-  .theme--dark .list__tile--active .icon { color: #fff !important; }
+  .theme--dark .navigation-drawer .list__tile--active .list__tile__content { color: #fff !important; }
+  .theme--dark .navigation-drawer .list__tile--active .icon { color: #fff !important; }
 </style>

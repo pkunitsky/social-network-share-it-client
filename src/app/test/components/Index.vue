@@ -1,3 +1,31 @@
 <template>
-  <div>Test Page</div>
+  <v-layout>
+    <v-flex xs12>
+      <v-card>
+        <template v-for="tab in tabs">
+          <v-layout>
+            <v-flex xs6>
+              <span>{{ tab.title }}</span>
+            </v-flex>
+            <v-flex xs6>
+              
+            </v-flex>
+          </v-layout>
+        </template>
+      </v-card>        
+    </v-flex>
+  </v-layout>
 </template>
+
+<script>
+  export default {
+    data: () => ({
+      tabs: [
+        { title: 'general' },
+        { title: 'colors' },
+        { title: 'auto night mode' },
+        { title: 'cache', details: 'by default we store all the data in your browser cache to boost perfomance' },
+      ]
+    })
+  }
+</script>
