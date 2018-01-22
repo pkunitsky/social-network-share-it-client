@@ -1,22 +1,20 @@
 <template>
-  <v-layout row>
-    <v-flex >
-      <SidePanel/>
+  <v-layout>
+    <v-flex md4>
+      <Talks />      
     </v-flex>
-    <v-flex>
-      <Chat/>
+    <v-flex md8>
+      
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-  import SidePanel from './SidePanel'
-  import Chat from './Chat'
+  import Talks from './Talks'
 
   export default {
     components: {
-      SidePanel,
-      Chat
+      Talks
     }
   }
 </script>

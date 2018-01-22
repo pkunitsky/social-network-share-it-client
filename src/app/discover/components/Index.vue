@@ -2,7 +2,8 @@
   <div>
     <div class="text-xs-center">
       <v-pagination
-        :length.number="totalPosts"
+        :total-visible="7"
+        :length.number="normalizedTotalPages"
         v-model="currentPage">
       </v-pagination>
     </div>
@@ -13,7 +14,8 @@
         <div class="card__body">
           <img
             class="card__img"
-            :src="post.urls.small">
+            :src="post.urls.small" />
+          <div class="card__img-placeholder"></div>
         </div>
         <div class="card__footer media">
           <img
@@ -40,12 +42,19 @@
 
   export default {
     data: () => ({
-      posts: [],
       perPage: 9,
       currentPage: 1,
       totalPosts: null
     }),
+
     computed: {
+      normalizedTotalPages () {
+        const normalized = this.currentPage + 4
+
+        return (this.totalPages >= normalized)
+          ? normalized
+          : this.totalPages
+      },
       posts: {
         get () {return this.$store.state.discover.posts},
         set (v) {this.$store.commit('discover/posts', v)}
@@ -54,6 +63,11 @@
         return Math.ceil(this.totalPosts / this.perPage)
       }
     },
+
+    created () {
+      if (this.posts.length === 0) this.request(this.currentPage)
+    },
+
     methods: {
       request (page) {
         /**
@@ -83,9 +97,6 @@
           })
           .catch(err => console.log(err))
       }
-    },
-    created () {
-      this.request(this.currentPage)
     }
   }
 </script>
@@ -98,29 +109,29 @@
     margin: 0 auto;
   }
   .grid__item {
-    flex: 1 1 30%;
+    flex: 1 1 25%;
     margin: 0 20px 40px;
   }
   .card {
     cursor: pointer;
     line-height: 0;
     border-radius: 2px;
-    /* box-shadow: 0 1px 2px rgba(0,0,0, 0.20); */
     overflow: hidden;
-    background-color: #fff;
-  }
-  .card:hover {
-    /* box-shadow: 0 3px 6px rgba(0,0,0, 0.20); */
   }
   .card__body {
     height: 215px;
     overflow: hidden;
-    background-color: #eee;
   }
   .card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+  .card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    /* here */
   }
   .card__footer {
     padding: 10px 15px;
@@ -146,8 +157,8 @@
     text-decoration: none;
   }
 
-
   .pagination {
-    margin-bottom: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
   }
 </style>

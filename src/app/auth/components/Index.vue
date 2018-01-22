@@ -16,11 +16,7 @@
         </v-layout>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex xs12>
-        <Footer/>
-      </v-flex>
-    </v-layout>
+    <Footer />
   </v-container>
 </template>
 
@@ -28,6 +24,7 @@
   import Welcome from './Welcome'
   import Login from './Login'
   import Register from './Register'
+  import Footer from './Footer'
 
   import particlesConfig from '@/assets/json/particles.config.json'
 
@@ -36,7 +33,8 @@
     components: {
       Welcome,
       Login,
-      Register
+      Register,
+      Footer
     },
     mounted () {
       window.particlesJS.load('particles', particlesConfig)

@@ -6,3 +6,7 @@
 - [ ] switch post layout
 - [ ] router-view scroll
 - [ ] favicon
+- [ ] notifications bell
+- [ ] master tooltips
+- [ ] dismissable messages chat tabs
+- [ ] scroll and fix

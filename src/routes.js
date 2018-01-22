@@ -13,12 +13,13 @@ import AuthGuard from '@/router/guards/auth-guard'
 export default [
   {
     path: '/auth',
-    component: Auth,
+    components: {
+      fullsize: Auth
+    },
     beforeEnter: AuthGuard.beforeEnter,
     children: [
       {
         path: 'logout',
-        name: 'logout',
         beforeEnter: AuthGuard.logout.beforeEnter
       }
     ]
@@ -45,7 +46,6 @@ export default [
   },
   {
     path: '/test',
-    name: 'test',
     component: Test
   },
   // {

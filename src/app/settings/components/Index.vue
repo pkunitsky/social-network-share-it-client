@@ -1,5 +1,9 @@
 <template>
-  <div>
-    settings page
-  </div>
+  <v-layout>
+    <v-flex xs12>
+      <v-card>
+        
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>

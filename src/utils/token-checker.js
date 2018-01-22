@@ -38,7 +38,7 @@ class TokenChecker {
     setTimeout(
       () => {
         if (!this.valid) {
-          store.dispatch('logout')
+          store.commit('auth/logout')
           return
         }
         
@@ -57,7 +57,7 @@ class TokenChecker {
         .then(res => {
           const { valid } = res.data
           if (!valid) {
-            store.dispatch('logout')
+            store.commit('auth/logout')
           }
           resolve(valid)
         })
