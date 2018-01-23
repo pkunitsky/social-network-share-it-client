@@ -1,7 +1,7 @@
 <template>
   <v-card>
 
-    <v-card-media src="/static/doc-images/lists/ali.png" height="300px">
+    <v-card-media src="//vuetifyjs.com/static/doc-images/lists/ali.png" height="300px">
       <v-layout column class="media">
         <v-card-title>
           <v-btn dark icon>

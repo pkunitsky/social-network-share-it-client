@@ -1,8 +1,8 @@
 export default {
   state: {
     showNotifications: true,
-    nightMode: false,
 
+    nightMode: false,
     themes: {
       light: {
         primary: '#1976D2'
@@ -10,7 +10,7 @@ export default {
       dark: {
         primary: '#212121'
       }
-    }
+    },
   },
 
   mutations: {

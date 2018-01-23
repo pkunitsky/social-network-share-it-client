@@ -1,11 +1,11 @@
 /* modules */
-import Auth from '@/app/auth/components'
-import Profile from '@/app/profile/components'
-import Messages from '@/app/messages/components'
-import Articles from '@/app/articles/components'
-import Discover from '@/app/discover/components'
-import Settings from '@/app/settings/components'
-import Test from '@/app/test/components'
+import Auth from '@/app/modules/auth/components'
+import Profile from '@/app/modules/profile/components'
+import Messages from '@/app/modules/messages/components'
+import Articles from '@/app/modules/articles/components'
+import Discover from '@/app/modules/discover/components'
+import Settings from '@/app/modules/settings/components'
+import Test from '@/app/modules/test/components'
 
 /* route guards */
 import AuthGuard from '@/router/guards/auth-guard'
@@ -48,8 +48,8 @@ export default [
     path: '/test',
     component: Test
   },
-  // {
-  //   path: '*',
-  //   redirect: '/discover'
-  // }
+  {
+    path: '*',
+    redirect: '/messages'
+  }
 ]

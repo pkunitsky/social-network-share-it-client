@@ -5,7 +5,17 @@
         <template v-for="tab in tabs">
           <v-layout>
             <v-flex xs6>
-              <span>{{ tab.title }}</span>
+              <v-list>
+                <v-list-tile>
+                  <v-list-tile-action
+                    v-model="nightMode"
+                    color="primary">
+                  </v-list-tile-action>
+                  <v-list-tile-title>
+                    Night Mode
+                  </v-list-tile-title>
+                </v-list-tile>
+              </v-list>
             </v-flex>
             <v-flex xs6>
               
@@ -24,7 +34,6 @@
         { title: 'general' },
         { title: 'colors' },
         { title: 'auto night mode' },
-        { title: 'starting tips' },
         { title: 'cache', details: 'by default we store all the data in your browser cache to boost perfomance' },
       ]
     })

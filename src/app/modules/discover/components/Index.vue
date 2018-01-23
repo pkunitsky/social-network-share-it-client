@@ -37,6 +37,7 @@
 
 <script>
   import axios from 'axios'
+  import {mapState} from 'vuex'
 
   const client_id = '63d38d54954444a6464ea0f78afe58384eabbdb7359aaf1977d46da2ca200ff4'
 
@@ -71,6 +72,7 @@
     methods: {
       request (page) {
         /**
+         * TODO:
          * 1. request for a page only once
          * 2. save to cache
          * 3. check for cache
@@ -92,6 +94,7 @@
         axios.get(`https://api.unsplash.com/photos`, options)
           .then(response => {
             this.posts = response.data
+            
             this.totalPosts = parseInt(response.headers['x-total'])
             this.currentPage = page
           })

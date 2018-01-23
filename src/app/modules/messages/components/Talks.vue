@@ -55,7 +55,7 @@
         {
           avatar: 'https://vuetifyjs.com/static/doc-images/lists/1.jpg',
           title: 'Brunch this weekend?',
-          subtitle: "<span class='grey--text darken-4'>Ali Connors</span> — I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
+          subtitle: "<span class='grey--text darken-4'>Ali Conners</span> — I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
         },
         {
           divider: true,

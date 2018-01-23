@@ -6,7 +6,9 @@ export default {
       text: null,
       visible: false,
       timeout: 2000
-    }
+    },
+
+    notifications: []
   },
 
   mutations: {

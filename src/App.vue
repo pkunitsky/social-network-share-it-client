@@ -145,28 +145,37 @@
         }
       },
       nightMode: {
-        get () {return this.$store.state.settings.nightMode},
-        set () {
+        get () {
           const {settings} = this.$store.state
-          const {theme} = this.$vuetify
-
+          return settings.nightMode
+        },
+        set () {
           this.$store.commit('settings/toggleNightMode')
-          this.$store.commit('notify',
-            `Night mode is turned ${settings.nightMode ? 'on':'off'}`
+          this.$store.commit(
+            'notify',
+            `Night mode is turned ${state.nightMode ? 'on':'off'}`
           )
-
-          const merger = (settings.nightMode)
-            ? settings.themes.dark
-            : settings.themes.light
-
-          console.log(merger)
-
-          Object.keys(theme).forEach(key => {
-            theme[key] = merger[key]
-          })
-
-          // console.log(this.$vuetify.theme.primary)
+          this.syncColorTheme()
         }
+      }
+    },
+
+    created () {
+      this.syncColorTheme()
+    },
+
+    methods: {
+      syncColorTheme () {
+        const {settings} = this.$store.state
+        const {theme} = this.$vuetify
+
+        const merger = (settings.nightMode)
+          ? settings.themes.dark
+          : settings.themes.light
+
+        Object.keys(merger).forEach(key => {
+          theme[key] = merger[key]
+        })
       }
     },
 
@@ -175,16 +184,16 @@
       drawer: null,
       items: [
         {
-          text: 'Messages',
-          to: '/messages',
-          badge: 5,
-          icon: 'mail'
-        },
-        {
           text: 'My profile',
           to: null,
           badge: null,
           icon: 'account_circle'
+        },
+        {
+          text: 'Messages',
+          to: '/messages',
+          badge: null,
+          icon: 'mail'
         },
         {
           text: 'Friends',
@@ -194,19 +203,19 @@
         },
         {
           text: 'Articles',
-          to: '/articles',
+          to: null,
           badge: null,
           icon: 'library_books',
         },
         {
           text: 'Discover',
-          to: '/discover',
+          to: null,
           badge: null,
           icon: 'camera'
         },
         {
           text: 'Settings',
-          to: '/settings',
+          to: null,
           badge: null,
           icon: 'settings'
         },
