@@ -145,28 +145,36 @@
         }
       },
       nightMode: {
-        get () {return this.$store.state.settings.nightMode},
-        set () {
+        get () {
           const {settings} = this.$store.state
-          const {theme} = this.$vuetify
-
+          return settings.nightMode
+        },
+        set () {
           this.$store.commit('settings/toggleNightMode')
           this.$store.commit('notify',
-            `Night mode is turned ${settings.nightMode ? 'on':'off'}`
+            `Night mode is turned ${this.$store.state.settings.nightMode ? 'on':'off'}`
           )
-
-          const merger = (settings.nightMode)
-            ? settings.themes.dark
-            : settings.themes.light
-
-          console.log(merger)
-
-          Object.keys(theme).forEach(key => {
-            theme[key] = merger[key]
-          })
-
-          // console.log(this.$vuetify.theme.primary)
+          this.syncColorTheme()
         }
+      }
+    },
+
+    created () {
+      this.syncColorTheme()
+    },
+
+    methods: {
+      syncColorTheme () {
+        const {settings} = this.$store.state
+        const {theme} = this.$vuetify
+
+        const merger = (settings.nightMode)
+          ? settings.themes.dark
+          : settings.themes.light
+
+        Object.keys(merger).forEach(key => {
+          theme[key] = merger[key]
+        })
       }
     },
 

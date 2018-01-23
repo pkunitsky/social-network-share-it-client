@@ -24,7 +24,6 @@
         { title: 'general' },
         { title: 'colors' },
         { title: 'auto night mode' },
-        { title: 'starting tips' },
         { title: 'cache', details: 'by default we store all the data in your browser cache to boost perfomance' },
       ]
     })

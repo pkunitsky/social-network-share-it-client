@@ -32,15 +32,25 @@
         </div>
       </div>
     </div>
+
+    <Lightbox 
+      :images=""
+      :options="lightboxOptions" />
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import {mapState} from 'vuex'
+  import Lightbox from 'vue-simple-lightbox'
 
   const client_id = '63d38d54954444a6464ea0f78afe58384eabbdb7359aaf1977d46da2ca200ff4'
 
   export default {
+    components: {
+      Lightbox
+    },
+
     data: () => ({
       perPage: 9,
       currentPage: 1,
@@ -48,6 +58,10 @@
     }),
 
     computed: {
+      ...mapState({
+        lightboxOptions: state => state.settings.lightbox
+      }),
+
       normalizedTotalPages () {
         const normalized = this.currentPage + 4
 
@@ -92,6 +106,8 @@
         axios.get(`https://api.unsplash.com/photos`, options)
           .then(response => {
             this.posts = response.data
+            console.log(this.posts)
+            
             this.totalPosts = parseInt(response.headers['x-total'])
             this.currentPage = page
           })
