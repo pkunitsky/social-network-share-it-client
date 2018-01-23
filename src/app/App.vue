@@ -41,12 +41,31 @@
       </v-toolbar-title>
 
       <div class="d-flex align-center" style="margin-left: auto">
-        <v-btn icon>
-          <v-icon>notifications</v-icon>
-        </v-btn>
+        <v-menu
+          transition="scale-transition"
+          :close-on-content-click="false"
+          origin="top right"
+          offset-y
+          :nudge-width="220">
+          <v-btn icon slot="activator">
+            <v-icon>notifications</v-icon>
+          </v-btn>
+          <v-card>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-content>
+
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-icon color="grey lighten-1">close</v-icon>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list>
+          </v-card>
+        </v-menu>
 
         <v-menu
-          offset-x
+          offset-y
           :close-on-content-click="false"
           :nudge-width="220"
           v-model="menu"
@@ -123,59 +142,25 @@
 
 <script>
   import {mapState} from 'vuex'
+  import _settings from '@/mixins/_settings'
 
-  export default {    
+  export default {
+    mixins: [
+      _settings
+    ],
+    
+    created () {
+      this.syncColorTheme()
+    },
+
     computed: {
-      size () {
-        return this.$vuetify.breakpoint.name
-      },
-
       ...mapState({
         notification: state => state.notification,
         authorized: state => state.auth.authorized
       }),
 
-      showNotifications: {
-        get () {
-          const {settings} = this.$store.state
-          return settings.showNotifications
-        },
-        set () {
-          this.$store.commit('settings/toggle', 'showNotifications')
-        }
-      },
-      nightMode: {
-        get () {
-          const {settings} = this.$store.state
-          return settings.nightMode
-        },
-        set () {
-          this.$store.commit('settings/toggleNightMode')
-          this.$store.commit(
-            'notify',
-            `Night mode is turned ${state.nightMode ? 'on':'off'}`
-          )
-          this.syncColorTheme()
-        }
-      }
-    },
-
-    created () {
-      this.syncColorTheme()
-    },
-
-    methods: {
-      syncColorTheme () {
-        const {settings} = this.$store.state
-        const {theme} = this.$vuetify
-
-        const merger = (settings.nightMode)
-          ? settings.themes.dark
-          : settings.themes.light
-
-        Object.keys(merger).forEach(key => {
-          theme[key] = merger[key]
-        })
+      size () {
+        return this.$vuetify.breakpoint.name
       }
     },
 
@@ -241,41 +226,3 @@
     })
   }
 </script>
-
-<style>
-  .list {
-    width: 100%;
-  }
-  .toolbar {
-    box-shadow: none;
-    border-bottom: 1px solid rgba(0,0,0, 0.12) !important;
-  }
-  .center {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .theme--light .toolbar .icon { color: #A0A0A0 !important }
-  
-  /* light theme customizations for drawer */
-  .theme--light .navigation-drawer .list__tile { opacity: 0.70 !important; }
-  .theme--light .navigation-drawer .list__tile--active {
-    opacity: 1 !important;
-    color: rgba(0,0,0, 0.87) !important;
-    background: rgba(0,0,0,.12) !important;
-  }
-  .theme--light .navigation-drawer .list__tile--active .list__tile__content { color: rgba(0,0,0, 0.87) !important; }
-  .theme--light .navigation-drawer .list__tile--active .icon { color: rgba(0,0,0, 0.87) !important; }
-  
-  /* dark theme customizations for drawer */
-  .theme--dark .navigation-drawer .list__tile { opacity: 0.45 !important; }
-  .theme--dark .navigation-drawer .list__tile--active {
-    opacity: 1 !important;
-    color: #fff !important;
-    background: rgba(0,0,0,.12) !important;
-  }
-  .theme--dark .navigation-drawer .list__tile--active .list__tile__content { color: #fff !important; }
-  .theme--dark .navigation-drawer .list__tile--active .icon { color: #fff !important; }
-</style>

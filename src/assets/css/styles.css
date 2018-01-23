@@ -64,3 +64,40 @@ h6 {
   box-shadow: none !important;
   margin-left: 0 !important;
 }
+.count-v-img { display: none !important }
+
+.list {
+  width: 100%;
+}
+.toolbar {
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0,0,0, 0.12) !important;
+}
+.center {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.theme--light .toolbar .icon { color: #A0A0A0 !important }
+
+/* light theme customizations for drawer */
+.theme--light .navigation-drawer .list__tile { opacity: 0.70 !important; }
+.theme--light .navigation-drawer .list__tile--active {
+  opacity: 1 !important;
+  color: rgba(0,0,0, 0.87) !important;
+  background: rgba(0,0,0,.12) !important;
+}
+.theme--light .navigation-drawer .list__tile--active .list__tile__content { color: rgba(0,0,0, 0.87) !important; }
+.theme--light .navigation-drawer .list__tile--active .icon { color: rgba(0,0,0, 0.87) !important; }
+
+/* dark theme customizations for drawer */
+.theme--dark .navigation-drawer .list__tile { opacity: 0.45 !important; }
+.theme--dark .navigation-drawer .list__tile--active {
+  opacity: 1 !important;
+  color: #fff !important;
+  background: rgba(0,0,0,.12) !important;
+}
+.theme--dark .navigation-drawer .list__tile--active .list__tile__content { color: #fff !important; }
+.theme--dark .navigation-drawer .list__tile--active .icon { color: #fff !important; }

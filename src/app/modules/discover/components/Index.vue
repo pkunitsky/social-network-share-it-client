@@ -14,6 +14,11 @@
         <div class="card__body">
           <img
             class="card__img"
+            v-img="{
+              src: post.urls.regular,
+              group: 'main'
+            }"
+            :alt="post.description"
             :src="post.urls.small" />
           <div class="card__img-placeholder"></div>
         </div>
@@ -67,6 +72,8 @@
 
     created () {
       if (this.posts.length === 0) this.request(this.currentPage)
+      console.log(this.posts[0].description)
+      console.log(this.posts[0].urls.regular)
     },
 
     methods: {

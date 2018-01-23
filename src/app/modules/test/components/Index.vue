@@ -5,11 +5,13 @@
         <template v-for="tab in tabs">
           <v-layout>
             <v-flex xs6>
-              <v-list>
+              <v-list dense>
                 <v-list-tile>
-                  <v-list-tile-action
-                    v-model="nightMode"
-                    color="primary">
+                  <v-list-tile-action>
+                    <v-switch
+                      v-model="nightMode"
+                      color="primary">
+                    </v-switch>
                   </v-list-tile-action>
                   <v-list-tile-title>
                     Night Mode
@@ -28,7 +30,10 @@
 </template>
 
 <script>
+  import _settings from '@/mixins/_settings'
+
   export default {
+    mixins: [_settings],
     data: () => ({
       tabs: [
         { title: 'general' },
