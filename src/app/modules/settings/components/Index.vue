@@ -1,9 +1,81 @@
 <template>
   <v-layout>
-    <v-flex xs12>
+    <v-flex md6>
       <v-card>
-        
+        <v-layout class="py-3">
+          <v-flex xs6>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-action>
+                  <v-switch
+                    v-model="nightMode"
+                    color="primary"
+                  ></v-switch>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  Night Mode
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
+          <v-flex class="pr-2" xs6>
+            <b>Night Mode</b> is designed to help users to keep healthy life rhythm. This is manual night mode setting. You can configure auto night mode settings down below
+          </v-flex>
+        </v-layout>
+
+        <v-divider />
+
+        <v-layout class="py-3">
+          <v-flex xs6>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-action>
+                  <v-switch
+                    v-model="showNotifications"
+                    color="primary"
+                  ></v-switch>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  Show Notifications
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
+          <v-flex class="pr-2" xs6>
+            Things like you got a new message, setting changes. We notify you about all these things if you turn <b>Show Notifications</b> on
+          </v-flex>
+        </v-layout>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+  import _settings from '@/mixins/_settings'
+
+  export default {
+    mixins: [_settings],
+
+    computed: {
+      togglers () {
+        return [
+          {
+            text: 'Night Mode',
+            model: 'this.nightMode'
+          },
+          {
+            text: 'Show Notifications',
+            model: this.showNotifications
+          }
+        ]
+      }
+    }
+  }
+</script>
+<!--
+sections
+1. general
+2. colors
+3. auto night mode
+4. cache
+-->

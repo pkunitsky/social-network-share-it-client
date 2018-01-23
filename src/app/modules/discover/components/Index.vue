@@ -54,6 +54,10 @@
     }),
 
     computed: {
+      ...mapState({
+        lightboxOptions: state => state.settings.lightbox
+      }),
+
       normalizedTotalPages () {
         const normalized = this.currentPage + 4
 

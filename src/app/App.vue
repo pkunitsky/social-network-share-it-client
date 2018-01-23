@@ -80,7 +80,7 @@
 
           <v-card>
             <v-list>
-              <v-list-tile avatar>
+              <v-list-tile avatar to="/profile">
                 <v-list-tile-avatar>
                   <v-icon>account_circle</v-icon>
                 </v-list-tile-avatar>
