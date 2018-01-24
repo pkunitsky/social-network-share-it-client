@@ -1,7 +1,7 @@
+/* under development */
 import AuthService from '@/services/AuthService'
 import store from '@/store'
 import notify from '@/utils/notify'
-import nprogress from '@/../modules/nprogress'
 /**
  * TokenChecker instance checks if token is valid
  *   checkEvery():

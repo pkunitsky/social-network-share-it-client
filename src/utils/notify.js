@@ -1,5 +1,4 @@
-import iziToast from '@/../modules/izitoast'
-import '@/../modules/izitoast/iziToast.css'
+/** under development */
 
 const config = {
   title: '',

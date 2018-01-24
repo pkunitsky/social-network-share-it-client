@@ -6,9 +6,10 @@ import router from '@/router'
 /** vue plugins */
 import '@/plugins/v-img'
 import '@/plugins/vuetify'
-import '@/plugins/nprogress'
+import '@/plugins/vue-top-progress'
 import '@/plugins/vuex-router-sync'
 
+/** css */
 import '@/assets/css/styles.css'
 
 

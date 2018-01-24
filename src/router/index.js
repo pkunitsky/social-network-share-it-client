@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import routes from '@/routes'
+import routes from './routes'
 
-import GlobalGuard from '@/router/guards/global-guard'
+import RouterGuard from './guard'
 
 Vue.use(Router)
 
@@ -12,6 +12,6 @@ const router = new Router({
   routes
 })
 
-router.beforeEach(GlobalGuard.beforeEach)
+router.beforeEach(RouterGuard.beforeEach)
 
 export default router

@@ -48,7 +48,7 @@
 
   export default {
     data: () => ({
-      perPage: 9,
+      perPage: 16,
       currentPage: 1,
       totalPosts: null
     }),

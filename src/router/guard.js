@@ -1,16 +1,17 @@
 import store from '@/store'
 import tokenChecker from '@/utils/token-checker'
-import nprogress from '@/../modules/nprogress'
 
 export default {
   beforeEach (to, from, next) {
+    /* test */
     if (process.env.NODE_ENV === 'development') {
-      console.log('router.beforeEach disabled for a while for client development')
       next()
+      console.log('router.beforeEach disabled for a while for client development')
       return
     }
     /** let pass for test route */
     if (to.path === '/test') next()
+    /* test */
 
     const { token } = store.state
     if (!token) {
@@ -20,14 +21,14 @@ export default {
       return
     }
   
-    nprogress.start()
+    /** progress start */
     tokenChecker
       .check(token)
       .then(valid => {
         if (!valid) {
           store.commit('auth/logout')
         }
-        nprogress.done()
+        /** progress done */
         next()
       })
   }

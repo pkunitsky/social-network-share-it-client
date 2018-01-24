@@ -7,8 +7,8 @@ import Discover from '@/app/modules/discover/components'
 import Settings from '@/app/modules/settings/components'
 import Test from '@/app/modules/test/components'
 
-/* route guards */
-import AuthGuard from '@/router/guards/auth-guard'
+/* guards */
+import AuthGuard from '@/app/modules/auth/guard'
 
 export default [
   {

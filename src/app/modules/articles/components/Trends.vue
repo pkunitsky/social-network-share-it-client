@@ -44,10 +44,6 @@
       ...mapState({
         nightMode: state => state.settings.nightMode
       })
-    },
-
-    created () {
-      console.log(this.nightMode)
     }
   }
 </script>
@@ -66,30 +62,13 @@
   .db {
     display: block;
   }
-
   .tag {
     font-weight: 700;
   }
-
   .link {
     line-height: 1.25;
-    color: #408bc9;
     transition: color .15s ease-in;
     text-decoration: none;
-  }
-  .link:link,
-  .link:visited {
-    transition: color .15s ease-in;
-  }
-  .link:hover {
-    transition: color .15s ease-in;
-  }
-  .link:active {
-    transition: color .15s ease-in;
-  }
-  .link:focus {
-    transition: color .15s ease-in;
-    outline: 1px dotted currentColor;
   }
   .list {
     list-style-type: none;
