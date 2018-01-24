@@ -1,7 +1,9 @@
 <template>
   <v-card>
 
-    <v-card-media src="//vuetifyjs.com/static/doc-images/lists/ali.png" height="300px">
+    <v-card-media
+      v-img="{src: '//vuetifyjs.com/static/doc-images/lists/ali.png'}" src="//vuetifyjs.com/static/doc-images/lists/ali.png"
+      height="300px">
       <v-layout column class="media">
         <v-card-title>
           <v-btn dark icon>
@@ -25,7 +27,7 @@
     <v-list two-line>
       <v-list-tile @click="">
         <v-list-tile-action>
-          <v-icon color="indigo">phone</v-icon>
+          <v-icon color="primary">phone</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>(650) 555-1234</v-list-tile-title>
@@ -48,7 +50,7 @@
       <v-divider inset></v-divider>
       <v-list-tile @click="">
         <v-list-tile-action>
-          <v-icon color="indigo">mail</v-icon>
+          <v-icon color="primary">mail</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>aliconnors@example.com</v-list-tile-title>
@@ -65,7 +67,7 @@
       <v-divider inset></v-divider>
       <v-list-tile @click="">
         <v-list-tile-action>
-          <v-icon color="indigo">location_on</v-icon>
+          <v-icon color="primary">location_on</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>1400 Main Street</v-list-tile-title>

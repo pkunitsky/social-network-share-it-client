@@ -85,8 +85,7 @@
                   <v-icon>account_circle</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title>John Leider</v-list-tile-title>
-                  <v-list-tile-sub-title>Founder of Vuetify.js</v-list-tile-sub-title>
+                  <v-list-tile-title>Ali Conners</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -112,11 +111,25 @@
                 <v-list-tile-title>Show notifications</v-list-tile-title>
               </v-list-tile>
             </v-list>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat @click="menu = false">Cancel</v-btn>
-              <v-btn color="primary" flat @click="menu = false">Save</v-btn>
-            </v-card-actions>
+            <v-divider />
+            <v-list>
+              <v-list-tile to="/settings">
+                <v-list-tile-action>
+                  <v-icon>settings</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  Settings
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile to="/auth/logout">
+                <v-list-tile-action>
+                  <v-icon>exit_to_app</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  Sign Out
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
           </v-card>
         </v-menu>
 
@@ -170,7 +183,7 @@
       items: [
         {
           text: 'My profile',
-          to: null,
+          to: '/profile',
           badge: null,
           icon: 'account_circle'
         },
@@ -188,41 +201,35 @@
         },
         {
           text: 'Articles',
-          to: null,
+          to: '/articles',
           badge: null,
           icon: 'library_books',
         },
         {
           text: 'Discover',
-          to: null,
+          to: '/discover',
           badge: null,
           icon: 'camera'
         },
         {
           text: 'Settings',
-          to: null,
+          to: '/settings',
           badge: null,
           icon: 'settings'
-        },
-        {
-          text: 'About Us',
-          to: null,
-          badge: null,
-          icon: 'help'
         },
         {
           text: 'Test Page',
           to: '/test',
           badge: null,
           icon: 'warning'
-        },
-        {
-          text: 'Auth',
-          to: null,
-          badge: null,
-          icon: 'people'
         }
       ]
-    })
+    }),
+
+    watch: {
+      '$store.state.auth.authorized' (v) {
+        if (v === true) this.$router.push('/')
+      }
+    }
   }
 </script>

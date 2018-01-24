@@ -66,7 +66,7 @@
     methods: {
       onSubmit () {
         /* test */
-        this.$store.commit('auth/authorizeTest')
+        this.$store.commit('auth/test_authorize')
         return
         /* test */
 

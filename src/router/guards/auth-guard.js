@@ -6,7 +6,7 @@ export default {
     
     const { token } = store.state
     if (token) {
-      next({ path: '/' })
+      next('/')
       return
     }
     
@@ -16,6 +16,7 @@ export default {
   logout: {
     beforeEnter (to, from, next) {
       store.commit('auth/logout')
+      next('/auth')
     }
   }
 }

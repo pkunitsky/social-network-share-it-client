@@ -1,164 +1,131 @@
 <template>
   <v-card class="br2 pa4">
     <div>
-      <h4 class="tags-title fw4 dib v-mid mv0">Latest trends</h4>
+      <h4
+        :class="nightMode ? 'white--text':null"
+        class="tags-title">Latest trends</h4>
     </div>
     <ul class="tags list f6 pl0 mb0">
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#AmazingSerena</span>
-          <span class="db grey--text">134.5k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#womenintech</span>
-          <span class="db grey--text">11k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#SenWarrenRoastsWellsFargo</span>
-          <span class="db grey--text">99k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#blackgirlmagic</span>
-          <span class="db grey--text">256.5k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#becauseofthemwecan</span>
-          <span class="db grey--text">4.1k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#gillscottheron</span>
-          <span class="db grey--text">20.11k mentions</span>
-        </a>
-      </li>
-      <li class="tags__li pv2">
-        <a href="#" class="link lh-title">
-          <span class="fw7 underline-hover">#trending</span>
-          <span class="db grey--text">4.1k mentions</span>
+      <li
+        v-for="tag in tags"
+        class="tags__li pv2">
+        <a href="#" class="link">
+          <span
+            class="tag"
+            :class="nightMode ? 'white--text':'primary--text'">
+            {{ tag.text }}
+          </span>
+          <span class="db grey--text">
+            {{ tag.mentions }} mentions
+          </span>
         </a>
       </li>
     </ul>
   </v-card>
 </template>
 
+<script>
+  import {mapState} from 'vuex'
+
+  export default {
+    data: () => ({
+      tags: [
+        { text: '#AmazingSerena', mentions: '134.5k' },
+        { text: '#womenintech', mentions: '11k' },
+        { text: '#SenWarrenRoastsWellsFargo', mentions: '99k' },
+        { text: '#blackgirlmagic', mentions: '256.5k' },
+        { text: '#becauseofthemwecan', mentions: '4.1k' },
+        { text: '#gillscottheron', mentions: '20.11k' },
+        { text: '#trending', mentions: '4.1k' },
+      ]
+    }),
+
+    computed: {
+      ...mapState({
+        nightMode: state => state.settings.nightMode
+      })
+    },
+
+    created () {
+      console.log(this.nightMode)
+    }
+  }
+</script>
+
 <style scoped>
   /* tachyons list component: 
-    http://tachyons.io/components/lists/hashtags/index.html
+    http://tachyons.io/components/:lists/hashtagsClassObj/index.html
   */
   .ba {
     border-style: solid;
     border-width: 1px;
   }
-
-
   .br2 {
     border-radius: .25rem;
   }
-
   .db {
     display: block;
   }
 
-  .dib {
-    display: inline-block;
-  }
-
-  .fw4 {
-    font-weight: 400;
-  }
-
-  .fw7 {
+  .tag {
     font-weight: 700;
   }
 
-  .lh-title {
-    line-height: 1.25;
-  }
-
   .link {
+    line-height: 1.25;
     color: #408bc9;
     transition: color .15s ease-in;
     text-decoration: none;
   }
-
   .link:link,
   .link:visited {
     transition: color .15s ease-in;
   }
-
   .link:hover {
     transition: color .15s ease-in;
   }
-
   .link:active {
     transition: color .15s ease-in;
   }
-
   .link:focus {
     transition: color .15s ease-in;
     outline: 1px dotted currentColor;
   }
-
   .list {
     list-style-type: none;
   }
-
   .pa4 {
     padding: 2rem;
   }
-
   .pl0 {
     padding-left: 0;
   }
-
   .pv2 {
     padding-top: .5rem;
     padding-bottom: .5rem;
   }
-
   .mb0 {
-    margin-bottom: 0;
-  }
-
-  .mv0 {
-    margin-top: 0;
     margin-bottom: 0;
   }
 
   .no-underline {
     text-decoration: none;
   }
-
   .tags-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-block;
     font-size: 1rem;
+    font-weight: 400;
+    vertical-align: middle;
     text-transform: uppercase;
     letter-spacing: -0.4px;
     color: rgba(0,0,0, 0.64);
   }
-
   .f6 {
     font-size: .875rem;
   }
-
-  .v-mid {
-    vertical-align: middle;
-  }
-
-  .underline-hover:hover,
-  .underline-hover:focus {
-    text-decoration: underline;
-  }
   /* < -- tachyons component end */
-
 
   .tags {
     margin-top: .5rem;
