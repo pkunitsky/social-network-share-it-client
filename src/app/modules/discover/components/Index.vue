@@ -16,7 +16,9 @@
             class="card__img"
             v-img="{
               src: post.urls.regular,
-              group: 'main'
+              group: 'main',
+              opened: onGalleryOpen,
+              closed: onGalleryClose
             }"
             :alt="post.description"
             :src="post.urls.small" />
@@ -47,17 +49,16 @@
   const client_id = '63d38d54954444a6464ea0f78afe58384eabbdb7359aaf1977d46da2ca200ff4'
 
   export default {
+
     data: () => ({
       perPage: 16,
       currentPage: 1,
-      totalPosts: null
+      totalPosts: null,
+      weTurnedNightModeOn: false,
+      weTurnedNotificationsOff: false,
     }),
 
     computed: {
-      ...mapState({
-        lightboxOptions: state => state.settings.lightbox
-      }),
-
       normalizedTotalPages () {
         const normalized = this.currentPage + 4
 
@@ -65,12 +66,23 @@
           ? normalized
           : this.totalPages
       },
+
       posts: {
         get () {return this.$store.state.discover.posts},
         set (v) {this.$store.commit('discover/posts', v)}
       },
+
       totalPages () {
         return Math.ceil(this.totalPosts / this.perPage)
+      },
+
+      nightMode: {
+        get () {return this.$store.state.settings.nightMode},
+        set (v) {this.$store.commit('settings/setNightMode', v)}
+      },
+      showNotifications: {
+        get () {return this.$store.state.settings.showNotifications},
+        set (v) {this.$store.commit('settings/setShowNotifications', v)}
       }
     },
 
@@ -79,6 +91,29 @@
     },
 
     methods: {
+      onGalleryOpen () {
+        if (this.nightMode || this.$store.state.settings.optimizedMode) return
+
+        if (this.showNotifications) {
+          this.showNotifications = false
+          this.weTurnedNotificationsOff = true
+        }
+        this.nightMode = true
+        this.weTurnedNightModeOn = true
+      },
+
+      onGalleryClose () {
+        if (!this.weTurnedNightModeOn) return
+
+        if (this.weTurnedNotificationsOff) {
+          this.weTurnedNotificationsOff = false
+          this.showNotifications = true
+        }
+
+        this.nightMode = false
+        this.weTurnedNightModeOn = false
+      },
+
       request (page) {
         /**
          * TODO:

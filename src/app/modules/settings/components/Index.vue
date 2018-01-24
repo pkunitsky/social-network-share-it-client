@@ -59,13 +59,13 @@
                   ></v-switch>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                  Optimize perfomance
+                  Optimized Mode
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
           </v-flex>
           <v-flex class="pr-3" xs6>
-            <b>Optimize perfomance</b> setting is recommended for low-spec devices. This might help you to fix perfomance issues (disables ripple effect on click)
+            <b>Optimized Mode</b> setting is recommended for low-spec devices. This might help you to fix perfomance issues (disables ripple effect on click)
           </v-flex>
         </v-layout>
       </v-card>

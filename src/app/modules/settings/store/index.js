@@ -14,6 +14,14 @@ export default {
   },
 
   mutations: {
+    setNightMode (state, payload) {
+      state.nightMode = payload
+    },
+
+    setShowNotifications (state, payload) {
+      state.showNotifications = payload
+    },
+
     toggle (state, setting) {
       state[setting] = !state[setting]
     },

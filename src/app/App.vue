@@ -80,7 +80,7 @@
 
           <v-card>
             <v-list>
-              <v-list-tile avatar to="/profile" active-class="'honey-no'">
+              <v-list-tile avatar @click="$router.push({path: '/profile'})">
                 <v-list-tile-avatar>
                   <v-icon>account_circle</v-icon>
                 </v-list-tile-avatar>
@@ -113,7 +113,7 @@
             </v-list>
             <v-divider />
             <v-list>
-              <v-list-tile to="/settings">
+              <v-list-tile @click="$router.push({path: '/settings'})">
                 <v-list-tile-action>
                   <v-icon>settings</v-icon>
                 </v-list-tile-action>
@@ -234,6 +234,12 @@
           icon: 'warning'
         }
       ]
-    })
+    }),
+
+    methods: {
+      pushTo (path) {
+        this.$router.push({path})
+      }
+    }
   }
 </script>
