@@ -15,10 +15,19 @@ export default {
   },
 
   computed: {
+    settings () {return this.$store.state.settings},
+
+    optimizedMode: {
+      get () {
+        return this.settings.optimizedMode
+      },
+      set () {
+        this.$store.commit('settings/toggle', 'optimizedMode')
+      }
+    },
     showNotifications: {
       get () {
-        const {settings} = this.$store.state
-        return settings.showNotifications
+        return this.settings.showNotifications
       },
       set () {
         this.$store.commit('settings/toggle', 'showNotifications')
@@ -27,15 +36,13 @@ export default {
 
     nightMode: {
       get () {
-        const {settings} = this.$store.state
-        return settings.nightMode
+        return this.settings.nightMode
       },
       set () {
-        const {settings} = this.$store.state
         this.$store.commit('settings/toggleNightMode')
         this.$store.commit(
           'notify',
-          `Night mode is turned ${settings.nightMode ? 'on':'off'}`
+          `Night mode is turned ${this.settings.nightMode ? 'on':'off'}`
         )
         this.syncColorTheme()
       }

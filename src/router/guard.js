@@ -3,6 +3,7 @@ import tokenChecker from '@/utils/token-checker'
 
 export default {
   beforeEach (to, from, next) {
+    if (store.state.auth.authorized === false && to.path !== '/auth') next('/auth')
     /* test */
     if (process.env.NODE_ENV === 'development') {
       next()

@@ -82,6 +82,7 @@ h6 {
 
 .theme--light .toolbar .icon { color: #A0A0A0 !important }
 
+.navigation-drawer .list__tile:hover { background: none }
 /* light theme customizations for drawer */
 .theme--light .navigation-drawer .list__tile { opacity: 0.70 !important; }
 .theme--light .navigation-drawer .list__tile--active {

@@ -10,3 +10,4 @@
 - [ ] implement tooltips
 - [ ] make favicon
 - [ ] fix discover page layout
+- [ ] add auto night mode

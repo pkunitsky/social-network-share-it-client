@@ -76,8 +76,6 @@
 
     created () {
       if (this.posts.length === 0) this.request(this.currentPage)
-      console.log(this.posts[0].description)
-      console.log(this.posts[0].urls.regular)
     },
 
     methods: {

@@ -18,7 +18,7 @@
               </v-list-tile>
             </v-list>
           </v-flex>
-          <v-flex xs6 class="pr-2">
+          <v-flex xs6 class="pr-3">
             <b>Night Mode</b> is designed to help users to keep healthy life rhythm. This is manual night mode setting. You can also configure auto night mode setting
           </v-flex>
         </v-layout>
@@ -41,8 +41,31 @@
               </v-list-tile>
             </v-list>
           </v-flex>
-          <v-flex class="pr-2" xs6>
+          <v-flex class="pr-3" xs6>
             Things like you got a new message, setting changes. We notify you about all these things if you turn <b>Show Notifications</b> on
+          </v-flex>
+        </v-layout>
+
+        <v-divider />
+
+        <v-layout class="py-3">
+          <v-flex xs6>
+            <v-list>
+              <v-list-tile>
+                <v-list-tile-action>
+                  <v-switch
+                    v-model="optimizedMode"
+                    color="primary"
+                  ></v-switch>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  Optimize perfomance
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
+          <v-flex class="pr-3" xs6>
+            <b>Optimize perfomance</b> setting is recommended for low-spec devices. This might help you to fix perfomance issues (disables ripple effect on click)
           </v-flex>
         </v-layout>
       </v-card>
@@ -66,7 +89,7 @@
               </v-list-tile>
             </v-list>
             </v-flex>
-            <v-flex xs6 class="pr-2">
+            <v-flex xs6 class="pr-3">
               <b>Auto Night Mode</b> will set night mode according to your sleeping ours and timezone. You manually set your sleeping hours
             </v-flex>
         </v-layout>
