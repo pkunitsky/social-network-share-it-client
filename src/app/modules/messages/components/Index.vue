@@ -1,7 +1,7 @@
 <template>
-  <v-layout>
+  <v-layout style="flex-grow: 1; overflow: hidden;">
     <v-flex md4>
-      <v-card>
+      <v-card class="h-100">
         <v-toolbar :dark="$store.state.settings.nightMode" :color="$store.state.settings.nightMode ? null:'white'">
           <v-text-field solo prepend-icon="search" placeholder="Search" class="toolbar__textfield"></v-text-field>
           <v-btn icon>
@@ -11,7 +11,7 @@
   
         <v-list three-line>
           <template v-for="(talk, i) in talks">
-            <v-list-tile avatar :key="talk.name" @click="">
+            <v-list-tile avatar :key="talk.with" @click="activeTalkIndex = i">
               <v-list-tile-avatar>
                 <img :src="talk.thumbnail" />
               </v-list-tile-avatar>
@@ -27,55 +27,242 @@
     </v-flex>
 
     <v-flex md8>
-      <v-card>
-        
+      <v-card class="h-100">
+        <div class="chat-wrapper">
+          <div class="chat-header grey--text">
+            With:&nbsp;<span class="black--text">{{ talks[activeTalkIndex].with }}</span>
+          </div>
+          <ul class="chat clearfix px-4">
+            <template
+              v-if="msgs"
+              v-for="(msg, i) in msgs">
+              <div class="chat-divider grey--text" v-if="i === 0 || (msgs[i-1] && msg.dateSent.diff(msgs[i-1].dateSent, 'hours') > 2)">
+                <span>{{ msg.dateSent | time }}</span>
+              </div>
+
+              <li
+                class="msg"
+                :class="msg.from ? 'msg--left':'msg--right'">
+                <img :src="msg.avatar">
+                <div class="msg__bubble">{{ msg.text }}</div>
+              </li>
+            </template>
+          </ul>
+        </div>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
+    filters: {
+      time (v) {return v.fromNow()}
+    },
+
+    computed: {
+      msgs () {return this.talks[this.activeTalkIndex].msgs}
+    },
+
     data: () => ({
+      activeTalkIndex: 0,
+
       talks: [
         {
           with: "Thomas Bangalter",
           thumbnail: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
           msgs: [
-            { from: "Thomas Bangalter", text: "hello" },
-            { from: "Thomas Bangalter", text: "It\'s me.", new: true },
-            { from: "Thomas Bangalter", text: "Just wondering.. Is it still a thing?", new: true },
-            { from: "Thomas Bangalter", text: "I mean you and Britta", new: true },
+            {
+              from: "Thomas Bangalter",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
+              text: "hello",
+              dateSent: moment('2017-02-08 09:35:26'),
+              new: false
+            },
+            {
+              from: "Thomas Bangalter",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
+              text: "It\'s me.",
+              dateSent: moment('2017-02-08 09:35:50'),
+              new: true
+            },
+            {
+              from: "Thomas Bangalter",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
+              text: "Just wondering.. Is it still a thing?",
+              dateSent: moment('2017-02-08 09:36:26'),
+              new: true
+            },
+            {
+              from: "Thomas Bangalter",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
+              text: "I mean you and Britta",
+              dateSent: moment('2018-01-25 10:37:26'),
+              new: true
+            },
           ]
         },
         {
           with: "John Doe",
           thumbnail: "https://vuetifyjs.com/static/doc-images/lists/2.jpg",
           msgs: [
-            { from: "John Doe", text: "A-yo, what is gucci, ma man?", new: true },
-            { from: "John Doe", text: "Can I come to party? It's gonna be lit!!", new: true },
+            {
+              from: "John Doe",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/2.jpg",
+              text: "A-yo, what is gucci, ma man?",
+              dateSent: moment('2017-02-08 09:40:26'),
+              new: true
+            },
+            {
+              from: "John Doe",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/2.jpg",
+              text: "Can I come to party? It's gonna be lit!!",
+              dateSent: moment('2017-02-08 09:40:29'),
+              new: true
+            },
           ]
         },
         {
           with: "Jane Winslet",
           thumbnail: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
           msgs: [
-            { from: "Jane Winslet", text: "Oh my gosh, I just saw the pictures.. This place is awesome! :)" },
-            { text: "Why don't we go there someday?" },
-            { from: "Jane Winslet", text: "That would be great" },
-            { from: "Jane Winslet", text: "Hey, do you have any plans for tommorow night?", new: true }
+            {
+              from: "Jane Winslet",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
+              text: "Oh my gosh, I just saw the pictures.. This place is awesome! :)",
+              dateSent: moment('2017-02-08 09:44:30'),
+              new: false,
+            },
+            {
+              avatar: "/static/png/ali--128x128.png",
+              text: "Why don't we go there someday?",
+              dateSent: moment('2017-02-08 09:44:29'),
+              new: true,
+            },
+            {
+              from: "Jane Winslet",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
+              text: "That would be great",
+              dateSent: moment('2017-02-08 09:45:32'),
+              new: true
+            },
+            {
+              from: "Jane Winslet",
+              avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
+              text: "Hey, do you have any plans for tommorow night?",
+              dateSent: moment('2017-02-08 09:45:32'),
+              new: true
+            }
           ]
         },
         {
           with: "Britta Holt",
           thumbnail: "https://vuetifyjs.com/static/doc-images/lists/4.jpg",
           msgs: [
-            { from: "Britta Holt", text: "How is it going, bruh?" },
-            { text: "Damn, girl. It's goin good )" },
-            { from: "Britta Holt", text: "Wanna hangout sometime or what?", new: true }
+            {
+              from: "Britta Holt",
+              text: "How is it going, bruh?",
+              dateSent: moment('2017-02-08 09:48:29'),
+              new: true
+            },
+            {
+              avatar: "/static/png/ali--128x128",
+              text: "Damn, girl. Doin good )",
+              dateSent: moment('2017-02-08 09:49:32'),
+              new: true
+            },
+            {
+              from: "Britta Holt",
+              text: "Wanna hangout sometime or what?",
+              dateSent: moment('2017-02-08 09:49:32'),
+              new: true
+            }
           ]
         }
       ],
     })
   }
 </script>
+
+<style>
+  .h-100,
+  .chat-wrapper {
+    height: 100% !important;
+  }
+  .chat-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 44px;
+    font-size: 1.12rem;
+    border-bottom: 1px solid rgba(0,0,0, 0.12);
+  }
+  .chat {
+    position: relative;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .chat-divider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 27px 0;
+    font-size: 14px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+  .chat-divider span::after,
+  .chat-divider span::before {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    top: 10px;
+    width: 30%;
+    height: 1px;
+    background-color: #e6e6e6;
+  }
+  .chat-divider span::before {left: 0}
+  .chat-divider span::after {right: 0}
+  .msg {
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 9px;
+    vertical-align: top;
+    transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
+  }
+
+  /* some complex css skills right there */
+  .msg--left + .msg--right {
+    margin-top: 16px;
+  }
+  .msg--right + .msg--left {
+    margin-top: 16px;
+  }
+
+  .msg--left {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .msg--right {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  .msg__bubble {
+    padding: 13px 14px;
+    border-radius: 5px;
+  }
+  .msg--left .msg__bubble {
+    color: #fff;
+    background-color: #00b0ff;
+  }
+  .msg--right .msg__bubble {
+    background-color: #eceff1;
+  }
+</style>

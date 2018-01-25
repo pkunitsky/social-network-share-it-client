@@ -3,26 +3,23 @@ import tokenChecker from '@/utils/token-checker'
 
 export default {
   beforeEach (to, from, next) {
-    if (store.state.auth.authorized === false && to.path !== '/auth') next('/auth')
-    /* test */
-    if (process.env.NODE_ENV === 'development') {
-      next()
-      console.log('router.beforeEach disabled for a while for client development')
+    if (store.state.auth.authorized === false && to.path !== '/auth') {
+      next({ path: '/auth' })
       return
     }
-    /** let pass for test route */
-    if (to.path === '/test') next()
-    /* test */
-
-    const { token } = store.state
-    if (!token) {
-      (to.path === '/auth')
-        ? next()
-        : next({ path: '/auth' })
+    if (to.path === '/settings') {
+      next()
       return
     }
   
     /** progress start */
+    store.commit('progressBarActive', true)
+    setTimeout(() => {
+      store.commit('progressBarActive', false)
+      next()
+    }, 500)
+    return
+    
     tokenChecker
       .check(token)
       .then(valid => {
@@ -30,6 +27,7 @@ export default {
           store.commit('auth/logout')
         }
         /** progress done */
+        store.commit('progressBarActive', false)
         next()
       })
   }

@@ -2,7 +2,12 @@
   <v-card>
 
     <v-card-media
-      v-img="{src: '//vuetifyjs.com/static/doc-images/lists/ali.png'}" src="//vuetifyjs.com/static/doc-images/lists/ali.png"
+      src="https://vuetifyjs.com/static/doc-images/lists/ali.png"
+      v-img="{
+        src: 'https://vuetifyjs.com/static/doc-images/lists/ali.png',
+        opened: onGalleryOpen,
+        closed: onGalleryClose
+      }"
       height="300px">
       <v-layout column class="media">
         <v-card-title>
@@ -78,3 +83,13 @@
     
   </v-card>
 </template>
+
+<script>
+  import _vImg from '@/mixins/_v-img'
+
+  export default {
+    mixins: [
+      _vImg
+    ]
+  }
+</script>

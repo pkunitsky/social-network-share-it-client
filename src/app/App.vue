@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="nightMode">
+  <v-app :dark="nightMode" style="overflow:hidden;">
     <v-navigation-drawer app
       fixed
       v-if="authorized"
@@ -137,13 +137,10 @@
     </v-toolbar>
     
     <v-content>
-      <div v-if="!authorized">
-        <vue-topprogress ref="progress" />
-        <router-view name="fullsize" />
-      </div>
-      
+      <router-view v-if="!authorized" name="fullsize" />
+
       <v-container v-if="authorized" fluid fill-height v-bind="{ [`grid-list-${size}`]: true }">
-        <vue-topprogress ref="progress" />
+        <vue-topprogress ref="progress" :color="$vuetify.theme.primary" :minimum="70" />
         <router-view />
       </v-container>
     </v-content>
@@ -165,14 +162,17 @@
     mixins: [
       _settings
     ],
-    
-    created () {
-      this.syncColorTheme()
-    },
 
     watch: {
       authorized (v) {
         if (v === true) this.$router.push('/')
+      },
+
+      '$store.state.progressBarActive' (v) {
+        switch (v) {
+          case true: this.$refs.progress.start(); break
+          case false: this.$refs.progress.done(); break
+        }
       }
     },
 
@@ -234,12 +234,6 @@
           icon: 'warning'
         }
       ]
-    }),
-
-    methods: {
-      pushTo (path) {
-        this.$router.push({path})
-      }
-    }
+    })
   }
 </script>

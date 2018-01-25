@@ -27,13 +27,12 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
-        <v-btn
-          round flat>
+        <v-btn flat>
           Google+
         </v-btn>
         <v-btn
           type="submit"
-          round color="primary"
+          color="light-blue darken-4 white--text"
           :loading="requestPending"
           :disabled="requestPending">
           Log In

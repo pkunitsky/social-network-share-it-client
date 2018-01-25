@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="container--flex">
+  <v-container fluid fill-height style="padding: 0;">
     <v-layout class="AuthPage-hero flex-grow" row wrap>
       <div id="particles"></div>
       <v-flex md6 lg7>
@@ -24,7 +24,6 @@
   import Welcome from './Welcome'
   import Login from './Login'
   import Register from './Register'
-  import Footer from './Footer'
 
   import particlesConfig from '@/assets/json/particles.config.json'
 
@@ -34,7 +33,6 @@
       Welcome,
       Login,
       Register,
-      Footer
     },
     mounted () {
       window.particlesJS.load('particles', particlesConfig)
@@ -45,9 +43,9 @@
 <style>
   .AuthPage-hero {
     position: relative;
+    display: flex;
+    align-items: center;
     background-color: #1da1f2;
-    padding: 60px 0;
-    padding-bottom: 12px;
   }
   #particles {
     position: absolute;
@@ -64,12 +62,6 @@
     z-index: 2;
   }
 
-  .container--flex {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
   .flex-grow {
     flex-grow: 1 !important;
   }

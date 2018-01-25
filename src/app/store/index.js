@@ -8,6 +8,8 @@ export default {
       timeout: 2000
     },
 
+    progressBarActive: false,
+
     notifications: []
   },
 
@@ -21,6 +23,8 @@ export default {
       if (timeout) state.notification.timeout = timeout
 
       state.notification.visible = true
-    }
+    },
+
+    progressBarActive: (state, v) => state.progressBarActive = v
   }
 }

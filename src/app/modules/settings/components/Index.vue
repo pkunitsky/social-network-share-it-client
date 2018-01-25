@@ -65,7 +65,7 @@
             </v-list>
           </v-flex>
           <v-flex class="pr-3" xs6>
-            <b>Optimized Mode</b> setting is recommended for low-spec devices. This might help you to fix perfomance issues (disables ripple effect on click)
+            <b>Optimized Mode</b> setting is recommended for low-spec devices. This might help you to fix perfomance issues (disables: ripple effect on click, cinema mode for image overlays)
           </v-flex>
         </v-layout>
       </v-card>

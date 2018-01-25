@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import ProgressBar from 'vue-top-progress'
+import vueTopprogress from 'vue-top-progress'
 
-Vue.use(ProgressBar)
+Vue.use(vueTopprogress)

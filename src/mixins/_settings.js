@@ -47,5 +47,9 @@ export default {
         this.syncColorTheme()
       }
     }
-  }
+  },
+
+  created () {
+    this.syncColorTheme()
+  },
 }

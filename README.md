@@ -1,6 +1,6 @@
 # share.it-client
 
-- [ ] progress bar
+- [ ] progress bar (+ fails)
 - [ ] profile page
 - [ ] messages page
 - [ ] spotify music page
@@ -8,6 +8,7 @@
 - [ ] implement scroll and fix
 - [ ] implement scroll loading
 - [ ] implement tooltips
+- [ ] implement search
 - [ ] make favicon
 - [ ] fix discover page layout
 - [ ] add auto night mode

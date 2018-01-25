@@ -45,17 +45,19 @@
 <script>
   import axios from 'axios'
   import {mapState} from 'vuex'
+  import _vImg from '@/mixins/_v-img'
 
   const client_id = '63d38d54954444a6464ea0f78afe58384eabbdb7359aaf1977d46da2ca200ff4'
 
   export default {
+    mixins: [
+      _vImg
+    ],
 
     data: () => ({
       perPage: 16,
       currentPage: 1,
       totalPosts: null,
-      weTurnedNightModeOn: false,
-      weTurnedNotificationsOff: false,
     }),
 
     computed: {
@@ -75,15 +77,6 @@
       totalPages () {
         return Math.ceil(this.totalPosts / this.perPage)
       },
-
-      nightMode: {
-        get () {return this.$store.state.settings.nightMode},
-        set (v) {this.$store.commit('settings/setNightMode', v)}
-      },
-      showNotifications: {
-        get () {return this.$store.state.settings.showNotifications},
-        set (v) {this.$store.commit('settings/setShowNotifications', v)}
-      }
     },
 
     created () {
@@ -91,29 +84,6 @@
     },
 
     methods: {
-      onGalleryOpen () {
-        if (this.nightMode || this.$store.state.settings.optimizedMode) return
-
-        if (this.showNotifications) {
-          this.showNotifications = false
-          this.weTurnedNotificationsOff = true
-        }
-        this.nightMode = true
-        this.weTurnedNightModeOn = true
-      },
-
-      onGalleryClose () {
-        if (!this.weTurnedNightModeOn) return
-
-        if (this.weTurnedNotificationsOff) {
-          this.weTurnedNotificationsOff = false
-          this.showNotifications = true
-        }
-
-        this.nightMode = false
-        this.weTurnedNightModeOn = false
-      },
-
       request (page) {
         /**
          * TODO:

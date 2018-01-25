@@ -44,7 +44,7 @@
         <v-spacer/>
         <v-btn
           type="submit"
-          round color="primary"
+          color="primary"
           :loading="requestPending"
           :disabled="requestPending">
           Register

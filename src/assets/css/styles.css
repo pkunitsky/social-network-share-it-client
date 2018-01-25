@@ -102,3 +102,11 @@ h6 {
 }
 .theme--dark .navigation-drawer .list__tile--active .list__tile__content { color: #fff !important; }
 .theme--dark .navigation-drawer .list__tile--active .icon { color: #fff !important; }
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+  height: 0;
+  font-size: 0;
+}
