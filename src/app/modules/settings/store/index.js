@@ -1,6 +1,6 @@
 export default {
   state: {
-    optimizedMode: true,
+    optimizedMode: false,
     showNotifications: true,
     nightMode: false,
     themes: {

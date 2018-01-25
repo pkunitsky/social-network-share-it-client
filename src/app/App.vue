@@ -73,8 +73,9 @@
           origin="top right">
 
           <v-btn icon large slot="activator">
-            <v-avatar size="32px" tile>
-              <v-icon style="font-size: 2.3rem;">account_circle</v-icon>
+            <v-avatar size="32px">
+              <v-icon v-if="false" style="font-size: 2.3rem;">account_circle</v-icon>
+              <img v-else src="/static/png/ali--128x128.png" />
             </v-avatar>
           </v-btn>
 
@@ -82,7 +83,8 @@
             <v-list>
               <v-list-tile avatar @click="$router.push({path: '/profile'})">
                 <v-list-tile-avatar>
-                  <v-icon>account_circle</v-icon>
+                  <v-icon v-if="false">account_circle</v-icon>
+                  <img v-else src="/static/png/ali--128x128.png" />
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title>Ali Conners</v-list-tile-title>
@@ -169,6 +171,8 @@
       },
 
       '$store.state.progressBarActive' (v) {
+        if (!this.$refs.progress) return
+        
         switch (v) {
           case true: this.$refs.progress.start(); break
           case false: this.$refs.progress.done(); break

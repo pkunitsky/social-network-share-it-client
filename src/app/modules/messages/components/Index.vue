@@ -28,21 +28,26 @@
 
     <v-flex md8>
       <v-card class="h-100">
-        <div class="chat-wrapper">
+        <div
+          class="chat-wrapper"
+          :class="{'chat-wrapper--active': j === activeTalkIndex}"
+          v-for="(talk, j) in talks"
+          :key="talk.with + j">
           <div class="chat-header grey--text">
             With:&nbsp;<span class="black--text">{{ talks[activeTalkIndex].with }}</span>
           </div>
           <ul class="chat clearfix px-4">
             <template
-              v-if="msgs"
-              v-for="(msg, i) in msgs">
-              <div class="chat-divider grey--text" v-if="i === 0 || (msgs[i-1] && msg.dateSent.diff(msgs[i-1].dateSent, 'hours') > 2)">
+              v-if="talk.msgs"
+              v-for="(msg, i) in talk.msgs">
+              <div class="chat-divider grey--text" v-if="i === 0 || (talk.msgs[i-1] && msg.dateSent.diff(talk.msgs[i-1].dateSent, 'hours') > 2)">
                 <span>{{ msg.dateSent | time }}</span>
               </div>
 
               <li
                 :key="i"
                 class="msg"
+                :style="{ 'animation-name': msg.from ? 'slideFromLeft':'slideFromRight' }"
                 :class="msg.from ? 'msg--left':'msg--right'">
                 <img class="msg__avatar" :src="msg.avatar">
                 <div class="msg__bubble">
@@ -55,6 +60,15 @@
               </li>
             </template>
           </ul>
+          <form @submit.prevent="onSubmit" class="chat-form">
+            <v-btn icon>
+              <v-icon>attach_file</v-icon>
+            </v-btn>
+            <input class="chat-form__input" v-model="msgToSend" type="text" placeholder="Type a message" />
+            <v-btn icon type="submit">
+              <v-icon>send</v-icon>
+            </v-btn>
+          </form>
         </div>
       </v-card>
     </v-flex>
@@ -69,13 +83,21 @@
       time (v) {return v.fromNow()}
     },
 
-    computed: {
-      msgs () {return this.talks[this.activeTalkIndex].msgs}
+    methods: {
+      onSubmit () {
+        this.talks[this.activeTalkIndex].msgs.push({
+          avatar: "/static/png/ali--128x128.png",
+          text: this.msgToSend,
+          dateSent: moment(),
+          seen: false
+        })
+        this.msgToSend = null
+      }
     },
 
     data: () => ({
       activeTalkIndex: 0,
-
+      msgToSend: null,
       talks: [
         {
           with: "Thomas Bangalter",
@@ -86,28 +108,28 @@
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
               text: "hello",
               dateSent: moment('2017-02-08 09:35:26'),
-              new: false
+              seen: true
             },
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
               text: "It\'s me.",
               dateSent: moment('2017-02-08 09:35:50'),
-              new: true
+              seen: false
             },
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
               text: "Just wondering.. Is it still a thing?",
               dateSent: moment('2017-02-08 09:36:26'),
-              new: true
+              seen: false
             },
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
               text: "I mean you and Britta",
               dateSent: moment('2018-01-25 10:37:26'),
-              new: true
+              seen: false
             },
           ]
         },
@@ -120,14 +142,14 @@
               avatar: "https://vuetifyjs.com/static/doc-images/lists/2.jpg",
               text: "A-yo, what is gucci, ma man?",
               dateSent: moment('2017-02-08 09:40:26'),
-              new: true
+              seen: false
             },
             {
               from: "John Doe",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/2.jpg",
               text: "Can I come to party? It's gonna be lit!!",
               dateSent: moment('2017-02-08 09:40:29'),
-              new: true
+              seen: false
             },
           ]
         },
@@ -140,27 +162,27 @@
               avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
               text: "Oh my gosh, I just saw the pictures.. This place is awesome! :)",
               dateSent: moment('2017-02-08 09:44:30'),
-              new: false,
+              seen: true,
             },
             {
               avatar: "/static/png/ali--128x128.png",
               text: "Why don't we go there someday?",
               dateSent: moment('2017-02-08 09:44:29'),
-              new: true,
+              seen: false,
             },
             {
               from: "Jane Winslet",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
               text: "That would be great",
               dateSent: moment('2017-02-08 09:45:32'),
-              new: true
+              seen: false
             },
             {
               from: "Jane Winslet",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
               text: "Hey, do you have any plans for tommorow night?",
               dateSent: moment('2017-02-08 09:45:32'),
-              new: true
+              seen: false
             }
           ]
         },
@@ -173,20 +195,20 @@
               avatar: "https://vuetifyjs.com/static/doc-images/lists/4.jpg",
               text: "How is it going, bruh?",
               dateSent: moment('2017-02-08 09:48:29'),
-              new: true
+              seen: false
             },
             {
               avatar: "/static/png/ali--128x128.png",
               text: "Damn, girl. Doin good )",
               dateSent: moment('2017-02-08 09:49:32'),
-              new: true
+              seen: false
             },
             {
               from: "Britta Holt",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/4.jpg",
               text: "Wanna hangout sometime or what?",
               dateSent: moment('2017-02-08 09:49:32'),
-              new: true
+              seen: false
             }
           ]
         }
@@ -196,12 +218,16 @@
 </script>
 
 <style>
-  
-
   .h-100,
+  .chat-wrapper {height: 100% !important }
+
   .chat-wrapper {
-    height: 100% !important;
+    position: relative;
+    display: none;
+    padding-bottom: 220px;
   }
+  .chat-wrapper--active { display: block }
+
   .chat-header {
     display: flex;
     align-items: center;
@@ -214,6 +240,7 @@
     margin: 0;
     padding: 0;
     position: relative;
+    height: 100%;
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -243,13 +270,32 @@
   }
   .chat-divider span::before {left: 0}
   .chat-divider span::after {right: 0}
+  .chat-form {
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 8px;
+    border: 1px solid #e6e6e6;
+    background-color: #eceff1;
+    width: calc(100% - 58px);
+    border-radius: 5px;
+  }
+  .chat-form__input {
+    flex: 1;
+  }
+  .chat-form__input:focus::placeholder {
+    color: rgb(160, 160, 160);
+  }
   .msg {
     font-size: 16px;
     display: flex;
     align-items: flex-end;
     margin-bottom: 9px;
     vertical-align: top;
-    transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
   }
   .msg__bubble {
     position: relative;
@@ -275,34 +321,32 @@
   .msg--right + .msg--left {
     margin-top: 16px;
   }
-  .msg:nth-of-type(1) { animation-duration: 0.15s }
-  .msg:nth-of-type(2) { animation-duration: 0.3s }
-  .msg:nth-of-type(3) { animation-duration: 0.45s }
-  .msg:nth-of-type(4) { animation-duration: 0.6s }
-  .msg:nth-of-type(5) { animation-duration: 0.75s }
-  .msg:nth-of-type(6) { animation-duration: 0.9s }
-  .msg:nth-of-type(7) { animation-duration: 1.05s }
-  .msg:nth-of-type(8) { animation-duration: 1.2s }
-  .msg:nth-of-type(9) { animation-duration: 1.35s }
-  .msg:nth-of-type(10) { animation-duration: 1.5s }
 
+  .msg {
+    transition: all 0.5s;
+    transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes slideFromLeft {
+    0% { transform: translateX(-120px); opacity: 0 }
+    100% { transform: translateX(0); opacity: 1 }
+  }
+  @keyframes slideFromRight {
+    0% { transform: translateX(120px); opacity: 0 }
+    100% { transform: translateX(0); opacity: 1 }
+  }
   
   .msg--left {margin-left: 0; margin-right: auto}
   .msg--left .msg__bubble {background-color: #eceff1}
   .msg--left .msg__avatar {margin-right: 8px}
   .msg--left .msg__corner {left: -7px; transform: scale(-1.2, 1.4)}
 
-  /* #00b0ff */
+  /* bluish color #00b0ff */
 
   .msg--right {margin-right: 0; margin-left: auto}
   .msg--right .msg__bubble {background-color: #eceff1}
   .msg--right .msg__avatar {margin-left: 8px; order: 2}
   .msg--right .msg__corner {right: -7px; transform: scale(1.2, 1.4)}
-
-
-  .slideFromLeft-enter-active { margin-left: -200px; opacity: 0 }
-  .slideFromLeft-leave-active { margin-left: 0; opacity: 1 }
-
-  .slideFromRight-enter-active { margin-right: -200px; opacity: 0 }
-  .slideFromRight-leave-active { margin-right: 0; opacity: 1 }
 </style>

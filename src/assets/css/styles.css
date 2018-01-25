@@ -44,16 +44,6 @@ h6 {
   min-width: 34px !important;
 }
 
-/* light theme pagination */
-.theme--light .pagination__item { color: rgba(0,0,0, 0.60) !important }
-.theme--light .pagination__item--active { color: #fff !important }
-
-/* dark theme pagination */
-.theme--dark .pagination__item { color: #ffffffcc !important }
-.theme--dark .pagination__navigation .icon { color: #ffffffcc !important }
-.theme--dark .pagination__navigation--disabled .icon { color: #aaa !important }
-.theme--dark .pagination__item--active { color: #aaa !important; background-color: #212121 !important }
-
 /* talks search bar */
 .input-group.input-group--solo { background-color: transparent !important }
 .theme--dark .input-group--focused .icon { color: #fff !important }
@@ -102,6 +92,23 @@ h6 {
 }
 .theme--dark .navigation-drawer .list__tile--active .list__tile__content { color: #fff !important; }
 .theme--dark .navigation-drawer .list__tile--active .icon { color: #fff !important; }
+/* #232323 */
+.theme--dark .navigation-drawer { background-color: #111111 !important }
+.theme--dark .navigation-drawer .list { background-color: #111111 !important }
+.application.theme--dark { background-color: #111111 !important }
+.theme--dark .toolbar { background-color: #1a1a1a !important }
+.theme--dark .card { background-color: #1a1a1a !important }
+.theme--dark .list { background-color: #1a1a1a !important }
+
+/* light theme pagination */
+.theme--light .pagination__item { color: rgba(0,0,0, 0.60) !important }
+.theme--light .pagination__item--active { color: #fff !important }
+
+/* dark theme pagination */
+.theme--dark .pagination__item { color: #ffffffcc !important }
+.theme--dark .pagination__navigation .icon { color: #ffffffcc !important }
+.theme--dark .pagination__navigation--disabled .icon { color: #aaa !important; background-color: #1a1a1a !important }
+.theme--dark .pagination__item--active { color: #aaa !important; background-color: #212121 !important }
 
 .clearfix::after {
   content: "";
