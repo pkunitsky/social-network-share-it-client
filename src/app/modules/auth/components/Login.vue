@@ -2,7 +2,7 @@
   <v-card
     class="Login AuthPage-form"
     elevation-1>
-    <v-card-title class="primary white--text">
+    <v-card-title class="light-blue darken-2 white--text">
       <span class="headline">Log In</span>
     </v-card-title>
     <v-form
@@ -32,7 +32,7 @@
         </v-btn>
         <v-btn
           type="submit"
-          color="light-blue darken-4 white--text"
+          color="light-blue darken-2 white--text"
           :loading="requestPending"
           :disabled="requestPending">
           Log In

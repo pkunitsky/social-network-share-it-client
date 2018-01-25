@@ -1,7 +1,10 @@
 <template>
-  <v-layout style="flex-grow: 1; overflow: hidden;">
-    <v-flex md4>
-      <v-card class="h-100">
+  <v-layout>
+    <v-flex
+      :md4="activeTalkIndex !== null"
+      :md5="activeTalkIndex === null"
+      style="transition: all 0.4s">
+      <v-card>
         <v-toolbar :dark="$store.state.settings.nightMode" :color="$store.state.settings.nightMode ? null:'white'">
           <v-text-field solo prepend-icon="search" placeholder="Search" class="toolbar__textfield"></v-text-field>
           <v-btn icon>
@@ -26,52 +29,58 @@
       </v-card>
     </v-flex>
 
-    <v-flex md8>
-      <v-card class="h-100">
-        <div
-          class="chat-wrapper"
-          :class="{'chat-wrapper--active': j === activeTalkIndex}"
-          v-for="(talk, j) in talks"
-          :key="talk.with + j">
-          <div class="chat-header grey--text">
-            With:&nbsp;<span class="black--text">{{ talks[activeTalkIndex].with }}</span>
-          </div>
-          <ul class="chat clearfix px-4">
-            <template
-              v-if="talk.msgs"
-              v-for="(msg, i) in talk.msgs">
-              <div class="chat-divider grey--text" v-if="i === 0 || (talk.msgs[i-1] && msg.dateSent.diff(talk.msgs[i-1].dateSent, 'hours') > 2)">
-                <span>{{ msg.dateSent | time }}</span>
-              </div>
-
-              <li
-                :key="i"
-                class="msg"
-                :style="{ 'animation-name': msg.from ? 'slideFromLeft':'slideFromRight' }"
-                :class="msg.from ? 'msg--left':'msg--right'">
-                <img class="msg__avatar" :src="msg.avatar">
-                <div class="msg__bubble">
-                  {{ msg.text }}
-                <svg class="msg__corner" viewBox="0 0 887.64 896.11">
-                  <path  fill="#eceff1" d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
-                    transform="translate(-6.18 -1.94)" />
-                </svg>
+    <transition name="fade">
+      <v-flex v-if="activeTalkIndex !== null">
+        <v-card height="100%; overflow: hidden;">
+          <div
+            class="chat-wrapper fill-height"
+            :class="{'chat-wrapper--active': j === activeTalkIndex}"
+            v-for="(talk, j) in talks"
+            :key="talk.with + j">
+            <div class="chat-header grey--text">
+              With:&nbsp;<span :class="$store.state.settings.nightMode ? 'white--text':'black--text'">{{ talks[activeTalkIndex].with }}</span>
+              <v-spacer />
+              <v-btn icon @click="activeTalkIndex = null">
+                <v-icon>close</v-icon>
+              </v-btn>
+            </div>
+            <ul class="chat scrollable px-4">
+              <template
+                v-if="talk.msgs"
+                v-for="(msg, i) in talk.msgs">
+                <div class="chat-divider grey--text" v-if="i === 0 || (talk.msgs[i-1] && msg.dateSent.diff(talk.msgs[i-1].dateSent, 'hours') > 2)">
+                  <span>{{ msg.dateSent | time }}</span>
                 </div>
-              </li>
-            </template>
-          </ul>
-          <form @submit.prevent="onSubmit" class="chat-form">
-            <v-btn icon>
-              <v-icon>attach_file</v-icon>
-            </v-btn>
-            <input class="chat-form__input" v-model="msgToSend" type="text" placeholder="Type a message" />
-            <v-btn icon type="submit">
-              <v-icon>send</v-icon>
-            </v-btn>
-          </form>
-        </div>
-      </v-card>
-    </v-flex>
+  
+                <li
+                  :key="i"
+                  class="msg"
+                  :style="{ 'animation-name': msg.from ? 'slideFromLeft':'slideFromRight' }"
+                  :class="msg.from ? 'msg--left':'msg--right'">
+                  <img class="msg__avatar" :src="msg.avatar">
+                  <div class="msg__bubble">
+                    {{ msg.text }}
+                  <svg class="msg__corner" viewBox="0 0 887.64 896.11">
+                    <path  fill="#eceff1" d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
+                      transform="translate(-6.18 -1.94)" />
+                  </svg>
+                  </div>
+                </li>
+              </template>
+            </ul>
+            <form @submit.prevent="onSubmit" class="chat-form">
+              <v-btn icon>
+                <v-icon>attach_file</v-icon>
+              </v-btn>
+              <input class="chat-form__input" v-model="msgToSend" type="text" placeholder="Type a message" />
+              <v-btn icon type="submit">
+                <v-icon>send</v-icon>
+              </v-btn>
+            </form>
+          </div>
+        </v-card>
+      </v-flex>
+    </transition>
   </v-layout>
 </template>
 
@@ -96,7 +105,7 @@
     },
 
     data: () => ({
-      activeTalkIndex: 0,
+      activeTalkIndex: null,
       msgToSend: null,
       talks: [
         {
@@ -218,20 +227,19 @@
 </script>
 
 <style>
-  .h-100,
-  .chat-wrapper {height: 100% !important }
-
   .chat-wrapper {
-    position: relative;
     display: none;
-    padding-bottom: 220px;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
   }
-  .chat-wrapper--active { display: block }
+  .chat-wrapper--active { display: flex }
 
   .chat-header {
     display: flex;
     align-items: center;
-    padding: 20px 44px;
+    padding: 8px 44px;
+    padding-right: 8px;
     font-size: 1.12rem;
     border-bottom: 1px solid rgba(0,0,0, 0.12);
   }
@@ -240,13 +248,14 @@
     margin: 0;
     padding: 0;
     position: relative;
-    height: 100%;
     width: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
+    overflow-y: auto !important;
+    flex: 1;
+    display: block;
     flex-direction: column;
     justify-content: flex-end;
+    padding-bottom: 140px;
   }
   .chat-divider {
     position: relative;
@@ -272,10 +281,6 @@
   .chat-divider span::after {right: 0}
   .chat-form {
     display: flex;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
     margin-left: auto;
     margin-right: auto;
     padding-left: 8px;

@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="nightMode" style="overflow:hidden;">
+  <v-app :dark="nightMode && $route.path !== '/auth'">
     <v-navigation-drawer app
       fixed
       v-if="authorized"

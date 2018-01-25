@@ -11,7 +11,7 @@ import '@/plugins/vuex-router-sync'
 
 /** css */
 import '@/assets/css/styles.css'
-
+import '@/assets/css/transitions.css'
 
 new Vue({
   el: '#app',

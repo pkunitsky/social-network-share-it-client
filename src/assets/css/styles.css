@@ -29,6 +29,22 @@ body {
   background-color: #fff;
 }
 
+html,
+body,
+.application,
+.application--wrap,
+
+.content--wrap,
+.content,
+.container.fill-height,
+.fill-height {
+  flex-grow: 1;
+  overflow: hidden !important;
+}
+.scrollable {
+  overflow-y: auto !important;
+}
+
 h1,
 h2,
 h3,
@@ -70,7 +86,10 @@ h6 {
   justify-content: center;
 }
 
-.theme--light .toolbar .icon { color: #A0A0A0 !important }
+.theme--dark .toolbar { border-bottom-color: #ffffff1f !important }
+.theme--dark .card { border: 1px solid #ffffff1f !important }
+
+.theme--light .toolbar .icon { color: #6f6f6f !important }
 
 .navigation-drawer .list__tile:hover { background: none }
 /* light theme customizations for drawer */
@@ -99,6 +118,7 @@ h6 {
 .theme--dark .toolbar { background-color: #1a1a1a !important }
 .theme--dark .card { background-color: #1a1a1a !important }
 .theme--dark .list { background-color: #1a1a1a !important }
+.theme--dark .primary--text { color: #111111 !important }
 
 /* light theme pagination */
 .theme--light .pagination__item { color: rgba(0,0,0, 0.60) !important }
@@ -116,4 +136,9 @@ h6 {
   clear: both;
   height: 0;
   font-size: 0;
+}
+
+.header-v-img,
+.footer-v-img {
+  background-color: transparent !important;
 }

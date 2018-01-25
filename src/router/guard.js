@@ -13,11 +13,9 @@ export default {
     }
   
     /** progress start */
-    store.commit('progressBarActive', true)
-    setTimeout(() => {
-      store.commit('progressBarActive', false)
-      next()
-    }, 500)
+    // store.commit('progressBarActive', true)
+    // store.commit('progressBarActive', false)
+    next()
     return
     
     tokenChecker

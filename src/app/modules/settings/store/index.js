@@ -8,7 +8,7 @@ export default {
         primary: '#1976D2'
       },
       dark: {
-        primary: '#212121'
+        primary: '#111111'
       }
     },
   },

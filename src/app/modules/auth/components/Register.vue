@@ -2,7 +2,7 @@
   <v-card
     class="Register AuthPage-form"
     elevation-1>
-    <v-card-title class="primary white--text">
+    <v-card-title class="light-blue darken-2 white--text">
       <span class="headline">Register</span>
     </v-card-title>
     <v-form
@@ -44,7 +44,7 @@
         <v-spacer/>
         <v-btn
           type="submit"
-          color="primary"
+          color="light-blue darken-2 white--text"
           :loading="requestPending"
           :disabled="requestPending">
           Register

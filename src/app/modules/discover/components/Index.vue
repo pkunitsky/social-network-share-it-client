@@ -175,7 +175,6 @@
   }
 
   .pagination {
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.2rem;
   }
 </style>
