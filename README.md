@@ -7,6 +7,7 @@
 - [ ] customize nav list
 - [ ] implement scroll and fix
 - [ ] implement scroll loading
+- [ ] implement router-view scroll
 - [ ] implement tooltips
 - [ ] implement search
 - [ ] make favicon

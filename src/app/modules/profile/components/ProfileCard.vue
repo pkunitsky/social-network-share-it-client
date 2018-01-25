@@ -2,9 +2,9 @@
   <v-card>
 
     <v-card-media
-      src="https://vuetifyjs.com/static/doc-images/lists/ali.png"
+      src="/static/png/ali--500x500.png"
       v-img="{
-        src: 'https://vuetifyjs.com/static/doc-images/lists/ali.png',
+        src: '/static/png/ali--1024x1024.png',
         opened: onGalleryOpen,
         closed: onGalleryClose
       }"
