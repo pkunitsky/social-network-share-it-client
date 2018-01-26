@@ -100,6 +100,8 @@
           this.error = 'Please fill out all the fields'
           return
         }
+        
+        this.fullname = this.email = this.password = this.confirmPassword = null
 
         this.requestPending = true
         AuthService

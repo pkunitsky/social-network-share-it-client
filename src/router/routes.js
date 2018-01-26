@@ -50,6 +50,6 @@ export default [
   },
   {
     path: '*',
-    redirect: '/messages'
+    redirect: '/discover'
   }
 ]
