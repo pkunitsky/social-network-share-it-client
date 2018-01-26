@@ -7,7 +7,11 @@
       <div class="center">
         <v-list>
           <template v-for="(item, i) in items">
-            <v-list-tile v-if="item.to" :to="item.to" :disabled="!item.to" :ripple="!optimizedMode">
+            <v-list-tile
+              v-if="item.to"
+              :to="item.to"
+              :disabled="!item.to"
+              :ripple="!optimizedMode">
               <v-list-tile-action>
                 <v-badge v-model="item.badge" overlap overlay>
                   <span slot="badge">{{ item.badge }}</span>
@@ -141,7 +145,10 @@
     <v-content>
       <router-view v-if="!authorized" name="fullsize" />
 
-      <v-container v-if="authorized" fluid fill-height v-bind="{ [`grid-list-${size}`]: true }">
+      <v-container
+        v-else
+        fill-height fluid
+        v-bind="{ [`grid-list-${size}`]: true }">
         <vue-topprogress ref="progress" :color="$vuetify.theme.primary" :minimum="70" />
         <router-view />
       </v-container>

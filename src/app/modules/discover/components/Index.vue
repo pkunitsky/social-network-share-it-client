@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="text-xs-center">
-      <v-pagination
-        :total-visible="7"
-        :length.number="normalizedTotalPages"
-        v-model="currentPage">
-      </v-pagination>
-    </div>
-    <div class="grid">
+    <v-progress-circular
+      class="center"
+      v-if="requestPending"
+      indeterminate
+      :color="$vuetify.theme.primary"
+      :size="50"
+    />
+    <div class="grid" v-else-if="posts">
       <div
         class="grid__item card"
-        v-for="post in posts">
+        v-for="post in currentPagePosts"
+        :key="post.urls.regular">
         <div class="card__body">
           <img
             class="card__img"
@@ -39,10 +40,18 @@
         </div>
       </div>
     </div>
+    <div v-show="!requestPending" class="text-xs-center">
+      <v-pagination
+        :total-visible="7"
+        :length.number="normalizedTotalPages"
+        v-model="currentPage">
+      </v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+  import _ from 'lodash'
   import axios from 'axios'
   import {mapState} from 'vuex'
   import _vImg from '@/mixins/_v-img'
@@ -50,40 +59,71 @@
   const client_id = '63d38d54954444a6464ea0f78afe58384eabbdb7359aaf1977d46da2ca200ff4'
 
   export default {
+    data: () => ({
+      requestPending: false,
+      currentPagePosts: []
+    }),
+
     mixins: [
       _vImg
     ],
 
-    data: () => ({
-      perPage: 16,
-      currentPage: 1,
-      totalPosts: null,
-    }),
-
     computed: {
       normalizedTotalPages () {
         const normalized = this.currentPage + 4
-
         return (this.totalPages >= normalized)
           ? normalized
           : this.totalPages
       },
-
+      totalPages () {
+        return Math.ceil(this.totalPosts / this.perPage)
+      },
       posts: {
         get () {return this.$store.state.discover.posts},
         set (v) {this.$store.commit('discover/posts', v)}
       },
-
-      totalPages () {
-        return Math.ceil(this.totalPosts / this.perPage)
+      totalPosts: {
+        get () {return this.$store.state.discover.totalPosts},
+        set (v) {this.$store.commit('discover/totalPosts', v)}
       },
+      requestsLeft: {
+        get () {return this.$store.state.discover.requestsLeft},
+        set (v) {this.$store.commit('discover/requestsLeft', v)}
+      },
+      currentPage: {
+        get () {return this.$store.state.discover.currentPage},
+        set (v) {this.$store.commit('discover/currentPage', v)}
+      },
+      perPage: {
+        get () {return this.$store.state.discover.perPage},
+        set (v) {this.$store.commit('discover/perPage', v)}
+      },
+      cachedPages: {
+        get () {return this.$store.state.discover.cachedPages},
+        set (v) {this.$store.commit('discover/cachedPages', v)}
+      }
     },
 
     created () {
-      if (this.posts.length === 0) this.request(this.currentPage)
+      this.request(this.currentPage)
+    },
+
+    watch: {
+      currentPage (newPage) {
+        const noCachedPages = this.cachedPages.length === 0
+        if (newPage === this.currentPage && noCachedPages) return
+        this.request(newPage)
+      }
     },
 
     methods: {
+      getCurrentPagePosts () {
+        const shuffled = _.shuffle(this.posts)
+        this.currentPagePosts = shuffled.slice(0, this.perPage)
+        console.log(this.currentPagePosts[0].id)
+        return this.currentPagePosts
+      },
+
       request (page) {
         /**
          * TODO:
@@ -91,28 +131,47 @@
          * 2. save to cache
          * 3. check for cache
          */
-        if (page < 0 || page > this.totalPages) {
-          page = this.currentPage
-        }
-        if (page === this.page) {
+        const pageIsCached = this.cachedPages.findIndex(p => p === page) !== -1
+        console.log(`
+          pageIsCached: ${pageIsCached}
+          page: ${page}
+        `)
+        if (pageIsCached) {
+          this.getCurrentPagePosts()
           return
         }
+        console.log('page is not cached')
+        this.requestPending = true
   
         const options = {
           params: {
             client_id,
             page,
-            per_page: this.perPage
+            per_page: 9
           }
         }
         axios.get(`https://api.unsplash.com/photos`, options)
           .then(response => {
-            this.posts = response.data
-            
+            const posts = response.data
+            this.posts = posts
+            this.cachedPages.push(page)
+
+            console.log(response)
             this.totalPosts = parseInt(response.headers['x-total'])
-            this.currentPage = page
+            this.requestsLeft = response.headers['x-ratelimit-remaining']
+            console.log(`requestsLeft: ${this.requestsLeft}`)
+            this.getCurrentPagePosts()
+            this.requestPending = false
           })
-          .catch(err => console.log(err))
+          .catch(err => {
+            console.log(err)
+            this.requestPending = false
+            this.$store.commit(
+              'notify',
+              err.toString(),
+              5000
+            )
+          })
       }
     }
   }
@@ -166,7 +225,7 @@
     line-height: 32px;
   }
   .media__link {
-    font-family: Courier New, Courier, monospace, serif;
+    font-family: 'Courier New', Courier, monospace, serif;
     font-size: 15px;
     color: #999;
   }
@@ -176,5 +235,12 @@
 
   .pagination {
     margin-bottom: 1.2rem;
+  }
+
+  .center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>

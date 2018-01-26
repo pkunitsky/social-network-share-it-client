@@ -1,11 +1,13 @@
 <template>
-  <v-layout>
+  <v-layout style="overflow: hidden;">
     <v-flex
       :md4="activeTalkIndex !== null"
       :md5="activeTalkIndex === null"
       style="transition: all 0.4s">
       <v-card>
-        <v-toolbar :dark="$store.state.settings.nightMode" :color="$store.state.settings.nightMode ? null:'white'">
+        <v-toolbar
+          :dark="$store.state.settings.nightMode"
+          :color="$store.state.settings.nightMode ? null:'white'">
           <v-text-field solo prepend-icon="search" placeholder="Search" class="toolbar__textfield"></v-text-field>
           <v-btn icon>
             <v-icon>add</v-icon>
@@ -33,22 +35,24 @@
       <v-flex v-if="activeTalkIndex !== null">
         <v-card height="100%; overflow: hidden;">
           <div
-            class="chat-wrapper fill-height"
+            class="chat-wrapper"
             :class="{'chat-wrapper--active': j === activeTalkIndex}"
             v-for="(talk, j) in talks"
             :key="talk.with + j">
-            <div class="chat-header grey--text">
-              With:&nbsp;<span :class="$store.state.settings.nightMode ? 'white--text':'black--text'">{{ talks[activeTalkIndex].with }}</span>
+            <v-toolbar class="chat-header grey--text" :dark="$store.state.settings.nightMode" :color="$store.state.settings.nightMode ? null:'white'">
+              With: <span :class="$store.state.settings.nightMode ? 'white--text':'black--text'">{{ talks[activeTalkIndex].with }}</span>
               <v-spacer />
               <v-btn icon @click="activeTalkIndex = null">
                 <v-icon>close</v-icon>
               </v-btn>
-            </div>
-            <ul class="chat scrollable px-4">
+            </v-toolbar>
+            <ul class="chat scrollable px-4" :ref="j === activeTalkIndex ? 'activeTalk':null">
               <template
                 v-if="talk.msgs"
                 v-for="(msg, i) in talk.msgs">
-                <div class="chat-divider grey--text" v-if="i === 0 || (talk.msgs[i-1] && msg.dateSent.diff(talk.msgs[i-1].dateSent, 'hours') > 2)">
+                <div
+                  class="chat-divider grey--text"
+                  v-if="i === 0 || (talk.msgs[i-1] && msg.dateSent.diff(talk.msgs[i-1].dateSent, 'hours') > 2)">
                   <span>{{ msg.dateSent | time }}</span>
                 </div>
   
@@ -92,6 +96,15 @@
       time (v) {return v.fromNow()}
     },
 
+    watch: {
+      'activeTalkMessages.length' () {
+        const el = this.$refs.activeTalk
+        if (!el) return
+
+        el.style.background = 'maroon'
+      }
+    },
+
     methods: {
       onSubmit () {
         this.talks[this.activeTalkIndex].msgs.push({
@@ -101,6 +114,16 @@
           seen: false
         })
         this.msgToSend = null
+      }
+    },
+
+    computed: {
+      activeTalkMessages () {
+        try {
+          return this.talks[this.activeTalkIndex].msgs
+        } catch (err) {
+          return []
+        }
       }
     },
 
@@ -232,15 +255,15 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    height: 544px;
   }
   .chat-wrapper--active { display: flex }
 
   .chat-header {
     display: flex;
     align-items: center;
-    padding: 8px 44px;
-    padding-right: 8px;
-    font-size: 1.12rem;
+    padding-left: 12px;
+    font-size: 16px;
     border-bottom: 1px solid rgba(0,0,0, 0.12);
   }
   .chat {
@@ -252,10 +275,6 @@
     overflow-x: hidden;
     overflow-y: auto !important;
     flex: 1;
-    display: block;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 140px;
   }
   .chat-divider {
     position: relative;
@@ -281,9 +300,7 @@
   .chat-divider span::after {right: 0}
   .chat-form {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 8px;
+    margin: 12px auto;
     border: 1px solid #e6e6e6;
     background-color: #eceff1;
     width: calc(100% - 58px);
@@ -301,6 +318,7 @@
     align-items: flex-end;
     margin-bottom: 9px;
     vertical-align: top;
+    flex: 0 0 auto;
   }
   .msg__bubble {
     position: relative;
@@ -320,12 +338,8 @@
   }
 
   /* some complex css skills right there */
-  .msg--left + .msg--right {
-    margin-top: 16px;
-  }
-  .msg--right + .msg--left {
-    margin-top: 16px;
-  }
+  .msg--left + .msg--right {margin-top: 16px}
+  .msg--right + .msg--left {margin-top: 16px}
 
   .msg {
     transition: all 0.5s;
@@ -343,15 +357,36 @@
     100% { transform: translateX(0); opacity: 1 }
   }
   
-  .msg--left {margin-left: 0; margin-right: auto}
+  .msg--left {float: left; margin-right: auto}
   .msg--left .msg__bubble {background-color: #eceff1}
   .msg--left .msg__avatar {margin-right: 8px}
   .msg--left .msg__corner {left: -7px; transform: scale(-1.2, 1.4)}
 
   /* bluish color #00b0ff */
 
-  .msg--right {margin-right: 0; margin-left: auto}
+  .msg--right {float: right; margin-left: auto}
   .msg--right .msg__bubble {background-color: #eceff1}
   .msg--right .msg__avatar {margin-left: 8px; order: 2}
   .msg--right .msg__corner {right: -7px; transform: scale(1.2, 1.4)}
+
+  .chat-divider {
+    float: left;
+    clear: both;
+    width: 100%;
+    overflow: auto;
+  }
+  .msg {
+    clear: both;
+    overflow: auto;
+  }
+  .chat-divider::before,
+  .chat-divider::after,
+  .msg::before,
+  .msg::after {
+    content: "";
+    display: table;
+    clear: both;
+    height: 0;
+    font-size: 0;
+  }
 </style>

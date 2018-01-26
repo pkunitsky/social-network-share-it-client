@@ -28,7 +28,6 @@ export default {
       state.token = null
       state.messages = []
       state.authorized = false
-      window.localStorage.removeItem('vuex')
     }
   }
 }

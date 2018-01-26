@@ -29,22 +29,6 @@ body {
   background-color: #fff;
 }
 
-html,
-body,
-.application,
-.application--wrap,
-
-.content--wrap,
-.content,
-.container.fill-height,
-.fill-height {
-  flex-grow: 1;
-  overflow: hidden !important;
-}
-.scrollable {
-  overflow-y: auto !important;
-}
-
 h1,
 h2,
 h3,
@@ -53,6 +37,8 @@ h5,
 h6 {
   font-weight: 500 !important;
 }
+
+.container.fill-height { position: relative !important }
 
 .card { border-radius: .25rem }
 .pagination__item {
@@ -88,6 +74,7 @@ h6 {
 
 .theme--dark .toolbar { border-bottom-color: #ffffff1f !important }
 .theme--dark .card { border: 1px solid #ffffff1f !important }
+.theme--dark .chat-header { border-color: #ffffff1f }
 
 .theme--light .toolbar .icon { color: #6f6f6f !important }
 

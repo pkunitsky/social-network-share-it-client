@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueImg from 'v-img'
+import VueImg from '@/../node_modules_custom/v-img'
 
 const config = {
   // Use `alt` attribute as gallery slide title
