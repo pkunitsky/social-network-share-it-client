@@ -24,12 +24,12 @@
           validate-on-blur
           required
         ></v-text-field>
+        <v-alert color="error" icon="warning" v-model="errorVisible" dismissible>
+          {{ error }}
+        </v-alert>
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
-        <v-btn flat>
-          Google+
-        </v-btn>
         <v-btn
           type="submit"
           color="light-blue darken-2 white--text"
@@ -44,13 +44,16 @@
 
 <script>
   import AuthService from '@/services/AuthService'
-  import notify from '@/utils/notify'
+  import _alerts from '@/mixins/_alerts'
 
   export default {
+    mixins: [
+      _alerts
+    ],
+
     data: () => ({
       valid: false,
       requestPending: false,
-      error: null,
       email: '',
       emailRules: [
         (v) => !!v || 'E-mail is required',
@@ -64,11 +67,6 @@
     }),
     methods: {
       onSubmit () {
-        /* test */
-        this.$store.commit('auth/test_authorize')
-        return
-        /* test */
-
         this.requestPending = true
         AuthService
           .login({
@@ -79,15 +77,20 @@
             const {user, token} = res.data
             const name = user.fullname.split(' ')[0]
             this.requestPending = false
-            notify(`Welcome ${name}!`, {
-              timeout: 1000
-            })
+            this.$store.commit(
+              'notify',
+              `Welcome ${name}!`,
+              1000,
+            )
             this.$store.commit('auth/login', {user, token})
           })
           .catch(err => {
             this.requestPending = false
-            const {error} = err.response.data
-            notify(error)
+            try {
+              this.error = err.response.data.error
+            } catch (e) {
+              this.error = err.toString()
+            }
           })
       }
     }

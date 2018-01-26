@@ -39,6 +39,12 @@
           validate-on-blur
           required
         ></v-text-field>
+        <v-alert color="success" icon="check_circle" v-model="successVisible" dismissible>
+          {{ success }}
+        </v-alert>
+        <v-alert color="error" icon="warning" v-model="errorVisible" dismissible>
+          {{ error }}
+        </v-alert>
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
@@ -57,8 +63,13 @@
 <script>
   import AuthService from '@/services/AuthService'
   import notify from '@/utils/notify'
+  import _alerts from '@/mixins/_alerts'
 
   export default {
+    mixins: [
+      _alerts
+    ],
+
     data: () => ({
       valid: false,
       requestPending: false,
@@ -82,8 +93,14 @@
         (v) => (v === this.password) || 'Passwords should match'
       ]
     }),
+
     methods: {
       onSubmit () {
+        if (!this.fullname || !this.email || !this.password || !this.confirmPassword) {
+          this.error = 'Please fill out all the fields'
+          return
+        }
+
         this.requestPending = true
         AuthService
           .register({
@@ -92,14 +109,14 @@
             password: this.password
           })
           .then(res => {
-            const name = res.data.fullname.split(' ')[0]
             this.requestPending = false
-            notify(`Account is registered`)
+            const name = res.data.fullname.split(' ')[0]
+            this.success = 'Account is registered'
           })
           .catch(err => {
-            const msg = err.response.data.error || err.toString()
             this.requestPending = false
-            notify(msg)
+            const msg = err.response.data.error || err.toString()
+            this.error = msg
           })
       }
     }

@@ -120,7 +120,6 @@
       getCurrentPagePosts () {
         const shuffled = _.shuffle(this.posts)
         this.currentPagePosts = shuffled.slice(0, this.perPage)
-        console.log(this.currentPagePosts[0].id)
         return this.currentPagePosts
       },
 
@@ -132,10 +131,7 @@
          * 3. check for cache
          */
         const pageIsCached = this.cachedPages.findIndex(p => p === page) !== -1
-        console.log(`
-          pageIsCached: ${pageIsCached}
-          page: ${page}
-        `)
+        console.log(`pageIsCached: ${pageIsCached}`)
         if (pageIsCached) {
           this.getCurrentPagePosts()
           return
@@ -186,7 +182,17 @@
   }
   .grid__item {
     flex: 1 1 25%;
-    margin: 0 20px 40px;
+    min-width: 270px;
+    margin: 0 6px 12px;
+  }
+  /* LG and up */
+  @media (min-width: 1200px) {
+    .grid {
+      margin-top: 12px;
+    }
+    .grid__item {
+      margin: 0 16px 32px;
+    }
   }
   .card {
     cursor: pointer;

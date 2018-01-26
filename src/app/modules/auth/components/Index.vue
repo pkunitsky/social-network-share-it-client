@@ -2,10 +2,10 @@
   <v-container fluid fill-height style="padding: 0;">
     <v-layout class="AuthPage-hero flex-grow" row wrap>
       <div id="particles"></div>
-      <v-flex md6 lg7>
+      <v-flex md6>
         <Welcome/>
       </v-flex>
-      <v-flex md6 lg5>
+      <v-flex md6>
         <v-layout row wrap>
           <v-flex md12 lg6>
             <Register/>

@@ -45,28 +45,9 @@
       </v-toolbar-title>
 
       <div class="d-flex align-center" style="margin-left: auto">
-        <v-menu
-          transition="scale-transition"
-          :close-on-content-click="false"
-          origin="top right"
-          offset-y
-          :nudge-width="220">
-          <v-btn icon slot="activator">
-            <v-icon>notifications</v-icon>
-          </v-btn>
-          <v-card>
-            <v-list>
-              <v-list-tile>
-                <v-list-tile-content>
-
-                </v-list-tile-content>
-                <v-list-tile-action>
-                  <v-icon color="grey lighten-1">close</v-icon>
-                </v-list-tile-action>
-              </v-list-tile>
-            </v-list>
-          </v-card>
-        </v-menu>
+        <v-btn icon>
+          <v-icon>notifications</v-icon>
+        </v-btn>  
 
         <v-menu
           offset-y

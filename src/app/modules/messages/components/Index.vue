@@ -1,9 +1,6 @@
 <template>
   <v-layout style="overflow: hidden;">
-    <v-flex
-      :md4="activeTalkIndex !== null"
-      :md5="activeTalkIndex === null"
-      style="transition: all 0.4s">
+    <v-flex md4>
       <v-card>
         <v-toolbar
           :dark="$store.state.settings.nightMode"
@@ -16,7 +13,7 @@
   
         <v-list three-line>
           <template v-for="(talk, i) in talks">
-            <v-list-tile avatar :key="talk.with" @click="activeTalkIndex = i">
+            <v-list-tile avatar :key="talk.with" @click="activeTalkIndex = i" to="null">
               <v-list-tile-avatar>
                 <img :src="talk.thumbnail" />
               </v-list-tile-avatar>
@@ -64,8 +61,8 @@
                   <img class="msg__avatar" :src="msg.avatar">
                   <div class="msg__bubble">
                     {{ msg.text }}
-                  <svg class="msg__corner" viewBox="0 0 887.64 896.11">
-                    <path  fill="#eceff1" d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
+                  <svg class="msg__corner" viewBox="0 0 887.64 896.11" >
+                    <path d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
                       transform="translate(-6.18 -1.94)" />
                   </svg>
                   </div>
@@ -89,47 +86,14 @@
 </template>
 
 <script>
+  import TalksService from '@/services/TalksService'
   import moment from 'moment'
 
   export default {
-    filters: {
-      time (v) {return v.fromNow()}
-    },
-
-    watch: {
-      'activeTalkMessages.length' () {
-        const el = this.$refs.activeTalk
-        if (!el) return
-
-        el.style.background = 'maroon'
-      }
-    },
-
-    methods: {
-      onSubmit () {
-        this.talks[this.activeTalkIndex].msgs.push({
-          avatar: "/static/png/ali--128x128.png",
-          text: this.msgToSend,
-          dateSent: moment(),
-          seen: false
-        })
-        this.msgToSend = null
-      }
-    },
-
-    computed: {
-      activeTalkMessages () {
-        try {
-          return this.talks[this.activeTalkIndex].msgs
-        } catch (err) {
-          return []
-        }
-      }
-    },
-
     data: () => ({
       activeTalkIndex: null,
       msgToSend: null,
+      requestPending: false,
       talks: [
         {
           with: "Thomas Bangalter",
@@ -244,8 +208,24 @@
             }
           ]
         }
-      ],
-    })
+      ]
+    }),
+
+    filters: {
+      time (v) {return moment(v).fromNow()}
+    },
+
+    methods: {
+      onSubmit () {
+        this.talks[this.activeTalkIndex].msgs.push({
+          avatar: "/static/png/ali--128x128.png",
+          text: this.msgToSend,
+          dateSent: moment(),
+          seen: false
+        })
+        this.msgToSend = null
+      }
+    }
   }
 </script>
 
@@ -312,6 +292,7 @@
   .chat-form__input:focus::placeholder {
     color: rgb(160, 160, 160);
   }
+
   .msg {
     font-size: 16px;
     display: flex;
@@ -335,6 +316,7 @@
     width: 9px;
     height: 9px;
     bottom: 4px;
+    fill: #eceff1;
   }
 
   /* some complex css skills right there */

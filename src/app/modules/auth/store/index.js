@@ -5,8 +5,6 @@ export default {
     user: null
   },
   mutations: {
-    test_authorize: (state) => state.authorized = true,
-    
     login (state, payload) {
       const {user, token} = payload
       const {fullname} = user
