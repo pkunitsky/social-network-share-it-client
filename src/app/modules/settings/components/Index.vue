@@ -1,6 +1,6 @@
 <template>
-  <v-layout>
-    <v-flex md6>
+  <v-layout row wrap>
+    <v-flex xs12 md6>
       <v-card>
         <v-layout class="py-3">
           <v-flex xs6>
@@ -71,7 +71,7 @@
       </v-card>
     </v-flex>
     
-    <v-flex md6>
+    <v-flex xs12 md6>
       <v-card>
         <v-layout class="py-3">
           <v-flex xs6>

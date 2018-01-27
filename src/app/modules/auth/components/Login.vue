@@ -80,7 +80,7 @@
             this.$store.commit(
               'notify',
               `Welcome ${name}!`,
-              1000,
+              3000,
             )
             this.$store.commit('auth/login', {user, token})
           })

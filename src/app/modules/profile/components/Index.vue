@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap>
-    <v-flex md4>
+    <v-flex xs12 md4>
       <ProfileCard />
     </v-flex>
     <v-flex md8>
