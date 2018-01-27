@@ -46,6 +46,15 @@ export default {
         )
         this.syncColorTheme()
       }
+    },
+
+    autoNightMode: {
+      get () {
+        return this.settings.autoNightMode
+      },
+      set () {
+        this.$store.commit('settings/toggle', 'autoNightMode')
+      }
     }
   },
 

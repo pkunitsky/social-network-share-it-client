@@ -5,14 +5,20 @@
         <v-toolbar
           :dark="$store.state.settings.nightMode"
           :color="$store.state.settings.nightMode ? null:'white'">
-          <v-text-field solo prepend-icon="search" placeholder="Search" class="toolbar__textfield"></v-text-field>
+          <v-text-field
+            class="toolbar__textfield"
+            solo
+            prepend-icon="search"
+            placeholder="Search"
+            v-model="filter">
+          </v-text-field>
           <v-btn icon>
             <v-icon>add</v-icon>
           </v-btn>
         </v-toolbar>
   
         <v-list three-line>
-          <template v-for="(talk, i) in talks">
+          <template v-for="(talk, i) in filteredTalks">
             <v-list-tile avatar :key="talk.with" @click="setActiveTalk(i)">
               <v-list-tile-avatar>
                 <img :src="talk.thumbnail" />
@@ -96,11 +102,57 @@
   import moment from 'moment'
 
   export default {
+    methods: {
+      setActiveTalk (i) {
+        this.activeTalkIndex =  i
+        this.initialMsgsLength = this.talks[i].msgs.length
+      },
+
+      closeActiveTalk () {
+        this.activeTalkIndex = null
+        this.initialMsgsLength = null
+      },
+
+      onSubmit () {
+        const {msgs} = this.talks[this.activeTalkIndex]
+
+        msgs.push({
+          avatar: "/static/png/ali--128x128.png",
+          text: this.msgToSend,
+          dateSent: moment(),
+          seen: false
+        })
+        this.msgToSend = null   
+      },
+
+      onBubbleAnimationStart () {
+        this.$refs.activeTalk[0].scrollTo(null, this.$refs.activeTalk[0].scrollHeight)
+      },
+
+      onBubbleAnimationEnd (e) {
+        e.target.classList.remove('msg__bubble--animate')
+      }
+    },
+
+    computed: {
+      filteredTalks () {
+        try {
+          const filter = this.filter.toUpperCase()
+          return this.talks.filter(
+            t => t.with.toUpperCase().indexOf(filter) !== -1 || t.msgs.find(msg => msg.text.toUpperCase().indexOf(filter) !== -1)
+          )
+        } catch (err) {
+          return this.talks
+        } 
+      }
+    },
+    
     data: () => ({
       activeTalkIndex: null,
       msgToSend: null,
       requestPending: false,
       initialMsgsLength: null,
+      filter: null,
       talks: [
         {
           with: "Thomas Bangalter",
@@ -183,7 +235,7 @@
             {
               from: "Jane Winslet",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/3.jpg",
-              text: "Hey, do you have any plans for tommorow night?",
+              text: "Hey, do you have any plans for tomorrow night?",
               dateSent: moment('2017-02-08 09:45:32'),
               seen: false
             }
@@ -220,38 +272,6 @@
 
     filters: {
       time (v) {return moment(v).fromNow()}
-    },
-
-    methods: {
-      setActiveTalk (i) {
-        this.activeTalkIndex =  i
-        this.initialMsgsLength = this.talks[i].msgs.length
-      },
-
-      closeActiveTalk () {
-        this.activeTalkIndex = null
-        this.initialMsgsLength = null
-      },
-
-      onSubmit () {
-        const {msgs} = this.talks[this.activeTalkIndex]
-
-        msgs.push({
-          avatar: "/static/png/ali--128x128.png",
-          text: this.msgToSend,
-          dateSent: moment(),
-          seen: false
-        })
-        this.msgToSend = null   
-      },
-
-      onBubbleAnimationStart () {
-        this.$refs.activeTalk[0].scrollTo(null, this.$refs.activeTalk[0].scrollHeight)
-      },
-
-      onBubbleAnimationEnd (e) {
-        e.target.classList.remove('msg__bubble--animate')
-      }
     }
   }
 </script>
@@ -321,7 +341,7 @@
   }
 
   .msg {
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: flex-end;
     margin-bottom: 9px;
@@ -335,7 +355,7 @@
   }
   .msg__avatar {
     border-radius: 100%;
-    width: 36px;
+    width: 32px;
     height: auto;
   }
   .msg__corner {

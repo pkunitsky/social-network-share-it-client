@@ -79,7 +79,7 @@
               <v-list-tile>
                 <v-list-tile-action>
                   <v-switch
-                    v-model="nightMode"
+                    v-model="autoNightMode"
                     color="primary"
                   ></v-switch>
                 </v-list-tile-action>
@@ -90,7 +90,7 @@
             </v-list>
             </v-flex>
             <v-flex xs6 class="pr-3">
-              <b>Auto Night Mode</b> will set night mode according to your sleeping ours and timezone. You manually set your sleeping hours
+              <b>Auto Night Mode</b> will set night mode according to your sleeping hours and timezone. You can always set your sleeping hours manually
             </v-flex>
         </v-layout>
       </v-card>
@@ -102,22 +102,7 @@
   import _settings from '@/mixins/_settings'
 
   export default {
-    mixins: [_settings],
-
-    computed: {
-      togglers () {
-        return [
-          {
-            text: 'Night Mode',
-            model: 'this.nightMode'
-          },
-          {
-            text: 'Show Notifications',
-            model: this.showNotifications
-          }
-        ]
-      }
-    }
+    mixins: [_settings]
   }
 </script>
 <!--

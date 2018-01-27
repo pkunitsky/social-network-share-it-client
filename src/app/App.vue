@@ -13,7 +13,7 @@
               :disabled="!item.to"
               :ripple="!optimizedMode">
               <v-list-tile-action>
-                <v-badge v-model="item.badge" overlap overlay>
+                <v-badge v-model="item.badge" :overlap="true">
                   <span slot="badge">{{ item.badge }}</span>
                   <v-icon>{{ item.icon }}</v-icon>
                 </v-badge>
@@ -23,7 +23,7 @@
                 <v-list-tile-title>
                   {{ item.text }}
                 </v-list-tile-title>
-                
+
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -72,7 +72,7 @@
                   <img v-else src="/static/png/ali--128x128.png" />
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title>Ali Conners</v-list-tile-title>
+                  <v-list-tile-title>{{ user.fullname }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -158,7 +158,7 @@
         if (v === true) this.$router.push('/')
       },
 
-      '$store.state.progressBarActive' (v) {
+      '$store.state.progressBarActive' (value) {
         if (!this.$refs.progress) return
         
         switch (v) {
@@ -171,7 +171,8 @@
     computed: {
       ...mapState({
         notification: state => state.notification,
-        authorized: state => state.auth.authorized
+        authorized: state => state.auth.authorized,
+        user: state => state.auth.user
       }),
 
       size () {
@@ -192,14 +193,8 @@
         {
           text: 'Messages',
           to: '/messages',
-          badge: null,
+          badge: 5,
           icon: 'mail'
-        },
-        {
-          text: 'Friends',
-          to: null,
-          badge: null,
-          icon: 'contacts'
         },
         {
           text: 'Articles',
@@ -221,7 +216,7 @@
         },
         {
           text: 'Test Page',
-          to: '/test',
+          to: null,
           badge: null,
           icon: 'warning'
         }

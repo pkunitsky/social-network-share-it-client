@@ -3,6 +3,7 @@ export default {
     optimizedMode: false,
     showNotifications: true,
     nightMode: false,
+    autoNightMode: true,
     themes: {
       light: {
         primary: '#1976D2'

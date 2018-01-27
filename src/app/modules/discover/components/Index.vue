@@ -23,7 +23,6 @@
             }"
             :alt="post.description"
             :src="post.urls.small" />
-          <div class="card__img-placeholder"></div>
         </div>
         <div class="card__footer media">
           <img
@@ -45,6 +44,7 @@
         :total-visible="7"
         :length.number="normalizedTotalPages"
         v-model="currentPage">
+        <div class="pagination__subtext">{{ requestsLeft }}</div>
       </v-pagination>
     </div>
   </div>
@@ -201,12 +201,6 @@
     height: 100%;
     object-fit: cover;
   }
-  .card__img-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
-    /* here */
-  }
   .card__footer {
     padding: 10px 15px;
   }
@@ -240,5 +234,15 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .pagination {
+    position:relative;
+  }
+  .pagination__subtext {
+    color: rgba(0,0,0, 0.80);
+    text-transform: uppercase;
+    bottom: 0;
+    transform: translateY(-100%);
   }
 </style>
