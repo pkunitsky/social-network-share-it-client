@@ -164,7 +164,7 @@
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
-              text: "hello",
+              text: "hey",
               dateSent: moment('2017-02-08 09:35:26'),
               seen: true
             },
@@ -178,14 +178,14 @@
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
-              text: "Just wondering.. Is it still a thing?",
+              text: "Just wondering.. What's up with that party, dude?",
               dateSent: moment('2017-02-08 09:36:26'),
               seen: false
             },
             {
               from: "Thomas Bangalter",
               avatar: "https://vuetifyjs.com/static/doc-images/lists/1.jpg",
-              text: "I mean you and Britta",
+              text: "Come on, man.. thats mean",
               dateSent: moment('2018-01-25 10:37:26'),
               seen: false
             },

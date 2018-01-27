@@ -44,9 +44,9 @@
         :total-visible="7"
         :length.number="normalizedTotalPages"
         v-model="currentPage">
-        <div class="pagination__subtext">{{ requestsLeft }}</div>
       </v-pagination>
     </div>
+    <div class="pagination__subtext">{{ requestsLeft }} requests left for current hour</div>
   </div>
 </template>
 
@@ -239,10 +239,14 @@
   .pagination {
     position:relative;
   }
+  .theme--dark .pagination__subtext {color: #ffffff1f}
   .pagination__subtext {
-    color: rgba(0,0,0, 0.80);
+    font-size: 10px;
+    letter-spacing: 0.32px;
+    word-spacing: 0.6px;
+    color: #999;
     text-transform: uppercase;
-    bottom: 0;
-    transform: translateY(-100%);
+    bottom: 12px;
+    text-align: center;
   }
 </style>

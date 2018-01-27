@@ -90,7 +90,10 @@
       confirmPassword: '',
       confirmPasswordRules: [
         (v) => !!v || 'Make sure you remember your password',
-        (v) => (v === this.password) || 'Passwords should match'
+        (v) => {
+          const password = document.querySelector('.Register input[type="password"]').value
+          return v === password || 'Passwords should match'
+        }
       ]
     }),
 
@@ -100,8 +103,6 @@
           this.error = 'Please fill out all the fields'
           return
         }
-        
-        this.fullname = this.email = this.password = this.confirmPassword = null
 
         this.requestPending = true
         AuthService
@@ -113,10 +114,13 @@
           .then(res => {
             this.requestPending = false
             const name = res.data.fullname.split(' ')[0]
+            this.fullname = this.email = this.password = this.confirmPassword = null
             this.success = 'Account is registered'
           })
           .catch(err => {
             this.requestPending = false
+            console.log(err.response.data.error)
+            console.log(err.toString())
             const msg = err.response.data.error || err.toString()
             this.error = msg
           })
