@@ -46,7 +46,7 @@
                 <v-icon>close</v-icon>
               </v-btn>
             </v-toolbar>
-            <ul class="chat scrollable px-4">
+            <ul class="chat scrollable px-4" :ref="j === activeTalkIndex ? 'activeTalk':null">
               <template
                 v-if="talk.msgs"
                 v-for="(msg, i) in talk.msgs">
@@ -64,6 +64,7 @@
                   <div
                     class="msg__bubble"
                     :class="{'msg__bubble--animate': (talks[activeTalkIndex].msgs.length !== initialMsgsLength) && i + 1 > initialMsgsLength}"
+                    @animationstart="onBubbleAnimationStart"
                     @animationend="onBubbleAnimationEnd">
                     {{ msg.text }}
                     <svg class="msg__corner" viewBox="0 0 887.64 896.11" >
@@ -241,7 +242,11 @@
           dateSent: moment(),
           seen: false
         })
-        this.msgToSend = null
+        this.msgToSend = null   
+      },
+
+      onBubbleAnimationStart () {
+        this.$refs.activeTalk[0].scrollTo(null, this.$refs.activeTalk[0].scrollHeight)
       },
 
       onBubbleAnimationEnd (e) {
