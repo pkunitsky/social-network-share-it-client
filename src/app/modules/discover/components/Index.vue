@@ -7,7 +7,7 @@
       :color="$vuetify.theme.primary"
       :size="50"
     />
-    <div class="grid" v-else-if="posts">
+    <div class="grid" v-else-if="currentPagePosts">
       <div
         class="grid__item card"
         v-for="post in currentPagePosts"
@@ -61,7 +61,6 @@
   export default {
     data: () => ({
       requestPending: false,
-      currentPagePosts: []
     }),
 
     mixins: [
@@ -78,9 +77,8 @@
       totalPages () {
         return Math.ceil(this.totalPosts / this.perPage)
       },
-      posts: {
-        get () {return this.$store.state.discover.posts},
-        set (v) {this.$store.commit('discover/posts', v)}
+      currentPagePosts () {
+        return this.cachedPages.find(page => page.pageNum === this.currentPage).posts
       },
       totalPosts: {
         get () {return this.$store.state.discover.totalPosts},
@@ -117,50 +115,44 @@
     },
 
     methods: {
-      getCurrentPagePosts () {
-        const shuffled = _.shuffle(this.posts)
-        this.currentPagePosts = shuffled.slice(0, this.perPage)
-        return this.currentPagePosts
-      },
-
-      request (page) {
+      request (pageNum) {
         /**
          * TODO:
          * 1. request for a page only once
          * 2. save to cache
          * 3. check for cache
          */
-        const pageIsCached = this.cachedPages.findIndex(p => p === page) !== -1
-        console.log(`pageIsCached: ${pageIsCached}`)
+        const pageIsCached = this.cachedPages.findIndex(p => p.pageNum === pageNum) !== -1
         if (pageIsCached) {
-          this.getCurrentPagePosts()
+          
           return
         }
-        console.log('page is not cached')
+
         this.requestPending = true
   
         const options = {
           params: {
             client_id,
-            page,
+            page: pageNum,
             per_page: 9
           }
         }
         axios.get(`https://api.unsplash.com/photos`, options)
           .then(response => {
+            this.requestPending = false
+
             const posts = response.data
             this.posts = posts
-            this.cachedPages.push(page)
 
-            console.log(response)
+            this.cachedPages.push({
+              pageNum,
+              posts
+            })
+            
             this.totalPosts = parseInt(response.headers['x-total'])
             this.requestsLeft = response.headers['x-ratelimit-remaining']
-            console.log(`requestsLeft: ${this.requestsLeft}`)
-            this.getCurrentPagePosts()
-            this.requestPending = false
           })
           .catch(err => {
-            console.log(err)
             this.requestPending = false
             this.$store.commit(
               'notify',

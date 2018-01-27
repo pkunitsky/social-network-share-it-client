@@ -2,7 +2,6 @@
 
 export default {
   state: {
-    posts: [],
     cachedPages: [],
     perPage: 9,
     currentPage: 1,
@@ -11,7 +10,6 @@ export default {
   },
 
   mutations: {
-    posts: (state, payload) => { state.posts.push(...payload) },
     totalPosts: (state, payload) => state.totalPosts = payload,
     requestsLeft: (state, payload) => state.requestsLeft = payload,
     currentPage: (state, payload) => state.currentPage = payload,
