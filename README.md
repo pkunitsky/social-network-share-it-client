@@ -13,5 +13,5 @@
 - [ ] implement tooltips
 - [ ] implement search
 - [ ] make favicon
-- [ ] fix discover page layout
+- [x] fix discover page layout
 - [ ] add auto night mode
