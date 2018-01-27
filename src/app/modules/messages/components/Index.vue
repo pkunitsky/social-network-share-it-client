@@ -1,6 +1,6 @@
 <template>
-  <v-layout style="overflow: hidden;">
-    <v-flex md4>
+  <v-layout class="Messages" row wrap>
+    <v-flex xs12 md4>
       <v-card>
         <v-toolbar
           :dark="$store.state.settings.nightMode"
@@ -13,7 +13,7 @@
   
         <v-list three-line>
           <template v-for="(talk, i) in talks">
-            <v-list-tile avatar :key="talk.with" @click="activeTalkIndex = i" to="null">
+            <v-list-tile avatar :key="talk.with" @click="setActiveTalk(i)">
               <v-list-tile-avatar>
                 <img :src="talk.thumbnail" />
               </v-list-tile-avatar>
@@ -29,21 +29,24 @@
     </v-flex>
 
     <transition name="fade">
-      <v-flex v-if="activeTalkIndex !== null">
-        <v-card height="100%; overflow: hidden;">
+      <v-flex xs12 md8 v-if="activeTalkIndex !== null">
+        <v-card>
           <div
             class="chat-wrapper"
             :class="{'chat-wrapper--active': j === activeTalkIndex}"
             v-for="(talk, j) in talks"
             :key="talk.with + j">
-            <v-toolbar class="chat-header grey--text" :dark="$store.state.settings.nightMode" :color="$store.state.settings.nightMode ? null:'white'">
+            <v-toolbar
+              class="chat-header grey--text"
+              :dark="$store.state.settings.nightMode"
+              :color="$store.state.settings.nightMode ? null:'white'">
               With: <span :class="$store.state.settings.nightMode ? 'white--text':'black--text'">{{ talks[activeTalkIndex].with }}</span>
-              <v-spacer />
-              <v-btn icon @click="activeTalkIndex = null">
+              
+              <v-btn icon @click="closeActiveTalk" class="ml-auto">
                 <v-icon>close</v-icon>
               </v-btn>
             </v-toolbar>
-            <ul class="chat scrollable px-4" :ref="j === activeTalkIndex ? 'activeTalk':null">
+            <ul class="chat scrollable px-4">
               <template
                 v-if="talk.msgs"
                 v-for="(msg, i) in talk.msgs">
@@ -56,15 +59,17 @@
                 <li
                   :key="i"
                   class="msg"
-                  :style="{ 'animation-name': msg.from ? 'slideFromLeft':'slideFromRight' }"
                   :class="msg.from ? 'msg--left':'msg--right'">
                   <img class="msg__avatar" :src="msg.avatar">
-                  <div class="msg__bubble">
+                  <div
+                    class="msg__bubble"
+                    :class="{'msg__bubble--animate': (talks[activeTalkIndex].msgs.length !== initialMsgsLength) && i + 1 > initialMsgsLength}"
+                    @animationend="onBubbleAnimationEnd">
                     {{ msg.text }}
-                  <svg class="msg__corner" viewBox="0 0 887.64 896.11" >
-                    <path d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
-                      transform="translate(-6.18 -1.94)" />
-                  </svg>
+                    <svg class="msg__corner" viewBox="0 0 887.64 896.11" >
+                      <path d="M6.18,1.94C213.45,715.79,893.82,811.8,893.82,811.8S442.56,963.52,114.1,864.51C68.22,850.68,33,837.93,6.49,826.23a1.21,1.21,0,0,1-.31-.66V1.94Z"
+                        transform="translate(-6.18 -1.94)" />
+                    </svg>
                   </div>
                 </li>
               </template>
@@ -94,6 +99,7 @@
       activeTalkIndex: null,
       msgToSend: null,
       requestPending: false,
+      initialMsgsLength: null,
       talks: [
         {
           with: "Thomas Bangalter",
@@ -216,14 +222,30 @@
     },
 
     methods: {
+      setActiveTalk (i) {
+        this.activeTalkIndex =  i
+        this.initialMsgsLength = this.talks[i].msgs.length
+      },
+
+      closeActiveTalk () {
+        this.activeTalkIndex = null
+        this.initialMsgsLength = null
+      },
+
       onSubmit () {
-        this.talks[this.activeTalkIndex].msgs.push({
+        const {msgs} = this.talks[this.activeTalkIndex]
+
+        msgs.push({
           avatar: "/static/png/ali--128x128.png",
           text: this.msgToSend,
           dateSent: moment(),
           seen: false
         })
         this.msgToSend = null
+      },
+
+      onBubbleAnimationEnd (e) {
+        e.target.classList.remove('msg__bubble--animate')
       }
     }
   }
@@ -235,7 +257,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    height: 544px;
+    height: 100%;
   }
   .chat-wrapper--active { display: flex }
 
@@ -323,20 +345,16 @@
   .msg--left + .msg--right {margin-top: 16px}
   .msg--right + .msg--left {margin-top: 16px}
 
-  .msg {
-    transition: all 0.5s;
-    transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
-    animation-duration: 0.5s;
+  .msg__bubble--animate {
+    animation-name: 'popUp';
+    animation-duration: 0.22s;
     animation-fill-mode: both;
   }
 
-  @keyframes slideFromLeft {
-    0% { transform: translateX(-120px); opacity: 0 }
-    100% { transform: translateX(0); opacity: 1 }
-  }
-  @keyframes slideFromRight {
-    0% { transform: translateX(120px); opacity: 0 }
-    100% { transform: translateX(0); opacity: 1 }
+  @keyframes popUp {
+    0% { transform: scale(0) }
+    70% { transform: scale(0.8) }
+    100% { transform: scale(1) }
   }
   
   .msg--left {float: left; margin-right: auto}
