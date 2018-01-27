@@ -19,7 +19,7 @@
   
         <v-list three-line>
           <template v-for="(talk, i) in filteredTalks">
-            <v-list-tile avatar :key="talk.with" @click="setActiveTalk(i)">
+            <v-list-tile avatar :key="talk.with" @click="setActiveTalk(talk.with)">
               <v-list-tile-avatar>
                 <img :src="talk.thumbnail" />
               </v-list-tile-avatar>
@@ -103,7 +103,8 @@
 
   export default {
     methods: {
-      setActiveTalk (i) {
+      setActiveTalk (talkWith) {
+        const i = this.talks.findIndex(t => t.with === talkWith)
         this.activeTalkIndex =  i
         this.initialMsgsLength = this.talks[i].msgs.length
       },
@@ -114,6 +115,8 @@
       },
 
       onSubmit () {
+        if (!this.msgToSend) return
+
         const {msgs} = this.talks[this.activeTalkIndex]
 
         msgs.push({
