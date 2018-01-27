@@ -45,8 +45,8 @@
         :length.number="normalizedTotalPages"
         v-model="currentPage">
       </v-pagination>
+      <div class="pagination__subtext">{{ requestsLeft }} requests left for current hour</div>
     </div>
-    <div class="pagination__subtext">{{ requestsLeft }} requests left for current hour</div>
   </div>
 </template>
 

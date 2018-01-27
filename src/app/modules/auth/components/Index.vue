@@ -16,7 +16,6 @@
         </v-layout>
       </v-flex>
     </v-layout>
-    <Footer />
   </v-container>
 </template>
 
@@ -44,6 +43,7 @@
   .AuthPage-hero {
     position: relative;
     display: flex;
+    overflow: hidden;
     align-items: center;
     background-color: #1da1f2;
   }
