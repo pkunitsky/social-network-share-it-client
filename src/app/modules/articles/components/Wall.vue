@@ -27,7 +27,7 @@
           <p class="article__text">The Node.js platform made JavaScript a player in back-end technology—migrating over to the server-side and bringing
             all its benefits with it. Learn more about how Node.js works, some of its most popular frameworks, and how it's...
             <br>
-            <a class="article__link" :class="nightMode ? 'grey--text':'primary--text'" href="#">read more</a>
+            <router-link class="article__link" :class="nightMode ? 'grey--text':'primary--text'" :to="'/article/' + 1">read more</router-link>
           </p>
           <div class="article__date">August 31, 2016</div>
         </div>
@@ -46,7 +46,7 @@
             world is between Node.JS and Ruby on Rails. So, who is the winner in this battle? If you asked this question
             5 years ago, the answer would have been Ruby, but time is changing and we have a new leader...
             <br>
-            <a class="article__link" :class="nightMode ? 'grey--text':'primary--text'" href="#">read more</a>
+            <router-link class="article__link" :class="nightMode ? 'grey--text':'primary--text'" :to="'/article/' + 1">read more</router-link>
           </p>
           <div class="article__date">August 9, 2017</div>
         </div>
@@ -61,7 +61,7 @@
           <p class="article__text">MeteorJS is one of the most talked-about Node.js frameworks on the scene. So where does it fall in the Node.js
             framework landscape, and is it the right choice for your MEAN-powered application?
             <br>
-            <a class="article__link" :class="nightMode ? 'grey--text':'primary--text'" href="#">read more</a>
+            <router-link class="article__link" :class="nightMode ? 'grey--text':'primary--text'" :to="'/article/' + 1">read more</router-link>
           </p>
           <div class="article__date">April 11, 2016</div>
         </div>
@@ -99,7 +99,7 @@
                 of numerous frameworks that both extend and add to Node.js's existing features. Here are 15 frameworks to
                 know...
                 <br>
-                <a class="article__link" :class="nightMode ? 'grey--text':'primary--text'" href="#">read more</a>
+                <router-link class="article__link" :class="nightMode ? 'grey--text':'primary--text'" :to="'/article/' + 1">read more</router-link>
               </p>
               <div class="article__date">April 7, 2016</div>
             </div>

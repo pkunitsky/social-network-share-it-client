@@ -1,14 +1,17 @@
 /* modules */
-import Auth from '@/app/modules/auth/components'
-import Profile from '@/app/modules/profile/components'
-import Messages from '@/app/modules/messages/components'
-import Articles from '@/app/modules/articles/components'
-import Discover from '@/app/modules/discover/components'
-import Settings from '@/app/modules/settings/components'
-import Test from '@/app/modules/test/components'
+import Auth from '../app/modules/auth/components'
+import Profile from '../app/modules/profile/components'
+import Messages from '../app/modules/messages/components'
+
+import Articles from '../app/modules/articles/components/Index'
+import Article from '../app/modules/article/components/Index'
+
+import Discover from '../app/modules/discover/components'
+import Settings from '../app/modules/settings/components'
+import Test from '../app/modules/test/components'
 
 /* guards */
-import AuthGuard from '@/app/modules/auth/guard'
+import AuthGuard from '../app/modules/auth/guard'
 
 export default [
   {
@@ -31,6 +34,10 @@ export default [
   {
     path: '/articles',
     component: Articles
+  },
+  {
+    path: '/article',
+    component: Article
   },
   {
     path: '/discover',

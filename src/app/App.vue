@@ -146,7 +146,7 @@
 
 <script>
   import {mapState} from 'vuex'
-  import _settings from '@/mixins/_settings'
+  import _settings from '../mixins/_settings'
 
   export default {
     mixins: [

@@ -14,6 +14,7 @@
   import Wall from './Wall'
 
   export default {
+    name: 'articles',
     components: {
       Trends,
       Wall
